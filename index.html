@@ -34,7 +34,6 @@
   </script>
 
   <style>
-    /* Universal Bricolage Grotesque */
     *, *::before, *::after, body, button, input, select, textarea {
       font-family: 'Bricolage Grotesque', system-ui, -apple-system, sans-serif !important;
       -webkit-tap-highlight-color: transparent;
@@ -100,8 +99,6 @@
 
   <!-- Left Slide-out Project Drawer -->
   <aside id="sidebar" class="fixed top-0 left-0 bottom-0 w-80 max-w-[85vw] bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-r border-slate-200/80 dark:border-slate-800/80 z-50 flex flex-col shadow-2xl transform -translate-x-full transition-transform duration-300 ease-in-out">
-    
-    <!-- Sidebar Header -->
     <div class="p-5 flex items-center justify-between border-b border-slate-100 dark:border-slate-800/80">
       <div class="flex items-center gap-3">
         <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-indigo-600 to-violet-600 flex items-center justify-center text-white shadow-md shadow-indigo-500/25 font-bold">
@@ -114,8 +111,6 @@
           <span class="text-xs text-slate-400 dark:text-slate-500 font-medium">Projects & 2:3 Covers</span>
         </div>
       </div>
-      
-      <!-- Close button -->
       <button id="close-sidebar-btn" aria-label="Close sidebar" class="p-2 rounded-xl text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
         <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -175,7 +170,7 @@
 
     <!-- Sidebar Footer -->
     <div class="p-4 border-t border-slate-100 dark:border-slate-800/70 flex items-center justify-between text-xs text-slate-400 font-medium">
-      <span id="project-counter-badge">3 Projects</span>
+      <span id="project-counter-badge">Projects</span>
       <button id="sidebar-reset-btn" class="hover:text-rose-500 transition underline underline-offset-2">Restore Defaults</button>
     </div>
   </aside>
@@ -183,8 +178,6 @@
   <!-- Top App Navigation Bar -->
   <header class="w-full max-w-5xl flex items-center justify-between py-3.5 px-4 sm:px-6">
     <div class="flex items-center gap-2 sm:gap-3">
-      
-      <!-- Home Button -->
       <button
         id="nav-home-btn"
         title="Go to Home Grid View"
@@ -196,7 +189,6 @@
         <span>Home</span>
       </button>
 
-      <!-- Projects Drawer Button -->
       <button
         id="open-sidebar-btn"
         title="Open Project Drawer"
@@ -208,7 +200,6 @@
         <span class="text-xs font-bold hidden sm:inline text-slate-600 dark:text-slate-300">Projects</span>
       </button>
 
-      <!-- Project Indicator Breadcrumb -->
       <div class="hidden sm:flex items-center gap-2 ml-1 cursor-pointer group" id="header-project-trigger" title="Switch project">
         <span class="text-slate-300 dark:text-slate-700 text-sm">/</span>
         <span id="header-project-emoji" class="text-lg">🎯</span>
@@ -216,8 +207,13 @@
       </div>
     </div>
 
-    <!-- Controls: Sound & Theme -->
+    <!-- Right-side controls: Sync Status Pill + Sound + Theme -->
     <div class="flex items-center gap-2">
+      <div id="cloud-sync-pill" class="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 text-slate-400">
+        <span id="sync-dot" class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span id="sync-text">Live</span>
+      </div>
+
       <button id="sound-btn" title="Toggle Sound Feedback" class="p-2.5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 shadow-sm transition">
         <svg id="sound-icon-on" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
@@ -241,7 +237,6 @@
 
   <!-- VIEW 1: HOME PAGE GRID VIEW -->
   <main id="view-home" class="w-full max-w-5xl px-4 sm:px-6 py-4 flex flex-col items-center">
-    
     <div class="w-full mb-6 sm:mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
       <div>
         <div class="flex items-center gap-2 text-indigo-600 dark:text-indigo-400 font-bold text-xs uppercase tracking-widest mb-1">
@@ -266,13 +261,11 @@
       </button>
     </div>
 
-    <!-- Responsive Grid for 2:3 Project Capsules -->
     <div id="home-grid" class="w-full grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4 sm:gap-6"></div>
   </main>
 
   <!-- VIEW 2: PROJECT DETAIL VIEW -->
   <main id="view-detail" class="w-full max-w-2xl px-3 sm:px-6 pb-12 flex flex-col items-center hidden">
-    
     <div class="w-full flex items-center justify-between mb-3 px-1">
       <button
         id="detail-back-home-btn"
@@ -291,47 +284,29 @@
 
     <!-- Main Detail Glass Panel -->
     <div class="w-full glass-panel border border-slate-200/80 dark:border-slate-800/80 rounded-[2rem] shadow-glass shadow-slate-300/20 dark:shadow-black/40 overflow-hidden flex flex-col">
-      
-      <!-- Symmetrical Hero Showcase -->
       <section class="p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-around gap-6 sm:gap-8 border-b border-slate-100 dark:border-slate-800/60 relative bg-gradient-to-b from-white/50 to-slate-50/20 dark:from-slate-900/50 dark:to-slate-900/10">
-        
-        <!-- Left: 2:3 Cover Art Frame with Exterior Buttons -->
         <div class="flex items-end gap-2.5 flex-shrink-0">
-          
           <div
             id="detail-cover-box"
             class="relative w-[148px] sm:w-[162px] aspect-[2/3] rounded-2xl overflow-hidden border-2 border-slate-200/90 dark:border-slate-700/80 bg-white dark:bg-white shadow-lg shadow-slate-300/30 dark:shadow-black/60 transition-all duration-300 hover:shadow-xl flex flex-col items-center justify-center flex-shrink-0"
           >
-            <img
-              id="cover-art-img"
-              src=""
-              alt="Project Cover"
-              class="w-full h-full object-cover hidden transition-all duration-300"
-            />
-
-            <!-- Default White Background Cover -->
-            <div
-              id="cover-art-default"
-              class="w-full h-full p-4 flex flex-col items-center justify-between text-center bg-white text-slate-900 select-none transition-all"
-            >
+            <img id="cover-art-img" src="" alt="Project Cover" class="w-full h-full object-cover hidden transition-all duration-300" />
+            <div id="cover-art-default" class="w-full h-full p-4 flex flex-col items-center justify-between text-center bg-white text-slate-900 select-none transition-all">
               <div class="w-full flex items-center justify-between opacity-50">
                 <span class="text-[9px] font-extrabold uppercase tracking-wider text-slate-500">Capsule</span>
                 <span id="default-cover-emoji" class="text-sm">🎯</span>
               </div>
-
               <div class="my-auto px-1 flex flex-col items-center">
                 <h3 id="default-cover-title" class="font-extrabold text-base sm:text-lg leading-tight tracking-tight text-slate-900 line-clamp-4 break-words">
                   Project Title
                 </h3>
               </div>
-
               <div class="w-full flex justify-center">
                 <span class="text-[8px] font-bold uppercase tracking-widest text-slate-400 bg-slate-100 px-2 py-0.5 rounded-md">
                   TaskPulse 2:3
                 </span>
               </div>
             </div>
-
             <div id="cover-art-ratio-badge" class="absolute bottom-2 left-2 z-10 pointer-events-none hidden">
               <span class="text-[9px] font-extrabold uppercase tracking-wider px-1.5 py-0.5 rounded-md bg-black/60 backdrop-blur-sm text-white/90">
                 2:3
@@ -339,7 +314,6 @@
             </div>
           </div>
 
-          <!-- Exterior Action Buttons -->
           <div class="flex flex-col items-center gap-1.5 pb-1">
             <button
               id="add-cover-btn"
@@ -351,7 +325,6 @@
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
               </svg>
             </button>
-
             <button
               id="delete-cover-btn"
               type="button"
@@ -374,15 +347,7 @@
                   <feDropShadow dx="0" dy="0" stdDeviation="5" flood-opacity="0.38" id="glow-color" flood-color="#ef4444" />
                 </filter>
               </defs>
-
-              <circle
-                cx="80"
-                cy="80"
-                r="66"
-                stroke-width="12"
-                class="stroke-slate-200/70 dark:stroke-slate-800/90 fill-none"
-              />
-
+              <circle cx="80" cy="80" r="66" stroke-width="12" class="stroke-slate-200/70 dark:stroke-slate-800/90 fill-none" />
               <circle
                 id="progress-circle"
                 class="progress-circle-stroke fill-none"
@@ -396,24 +361,17 @@
                 style="stroke-dasharray: 414.69; stroke-dashoffset: 414.69;"
               />
             </svg>
-
-            <!-- Inside Donut Content -->
             <div class="absolute inset-0 flex flex-col items-center justify-center text-center select-none px-4 pointer-events-none">
               <span id="pct-badge" class="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full mb-1 bg-red-100/90 dark:bg-red-950/70 text-red-600 dark:text-red-400 transition-colors duration-300">
                 Getting Started
               </span>
               <div class="relative flex items-center justify-center">
                 <span id="pct-number" class="metric-brico text-5xl sm:text-6xl text-slate-900 dark:text-slate-50 leading-none text-center">0</span>
-                <span class="metric-brico-pct absolute left-full top-1 sm:top-1.5 ml-1 text-lg sm:text-xl text-slate-400 dark:text-slate-500 leading-none select-none">
-                  %
-                </span>
+                <span class="metric-brico-pct absolute left-full top-1 sm:top-1.5 ml-1 text-lg sm:text-xl text-slate-400 dark:text-slate-500 leading-none select-none">%</span>
               </div>
-              <span id="tasks-ratio" class="text-xs font-semibold text-slate-400 dark:text-slate-500 mt-2 tracking-tight">
-                0 of 0 done
-              </span>
+              <span id="tasks-ratio" class="text-xs font-semibold text-slate-400 dark:text-slate-500 mt-2 tracking-tight">0 of 0 done</span>
             </div>
           </div>
-
           <div id="motivation-text" class="mt-2 text-xs font-medium text-slate-500 dark:text-slate-400 text-center flex items-center justify-center gap-1.5 transition-all">
             <span>Tap checklist items to advance</span>
           </div>
@@ -422,7 +380,6 @@
 
       <!-- Checklist Section -->
       <section class="p-5 sm:p-7 flex flex-col gap-4">
-        
         <div class="flex items-center justify-between pb-1 border-b border-slate-100 dark:border-slate-800/50">
           <input
             id="project-desc-input"
@@ -474,7 +431,6 @@
 
         <div class="mt-1">
           <ul id="task-list" class="flex flex-col gap-2.5 max-h-[380px] overflow-y-auto pr-1"></ul>
-
           <div id="empty-state" class="hidden flex-col items-center justify-center py-10 px-4 text-center">
             <div class="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-900 flex items-center justify-center text-slate-400 mb-2">
               <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -490,7 +446,7 @@
       <footer class="px-6 py-3.5 bg-slate-100/50 dark:bg-slate-900/50 border-t border-slate-200/50 dark:border-slate-800/50 flex items-center justify-between text-xs text-slate-400 dark:text-slate-500 font-medium">
         <span class="flex items-center gap-2">
           <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-          Auto-saved locally
+          Cloud-synced
         </span>
         <span id="active-project-tag" class="font-bold text-slate-600 dark:text-slate-400 truncate max-w-[160px]">
           🎯 Daily Goals
@@ -499,7 +455,7 @@
     </div>
   </main>
 
-  <!-- Cover Art Selection Modal -->
+  <!-- Modals -->
   <div id="cover-modal" class="fixed inset-0 z-[60] flex items-center justify-center bg-slate-950/50 dark:bg-black/70 backdrop-blur-sm hidden opacity-0 transition-opacity duration-200 p-4">
     <div class="w-full max-w-md bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-2xl transform scale-95 transition-transform duration-200" id="cover-modal-box">
       <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
@@ -520,7 +476,6 @@
           </svg>
         </button>
       </div>
-
       <div class="mt-4 space-y-4">
         <div>
           <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">Upload local image file</label>
@@ -534,13 +489,11 @@
             </label>
           </div>
         </div>
-
         <div class="flex items-center gap-2">
           <div class="flex-1 h-px bg-slate-200 dark:bg-slate-800"></div>
           <span class="text-[10px] font-bold uppercase text-slate-400">or paste link</span>
           <div class="flex-1 h-px bg-slate-200 dark:bg-slate-800"></div>
         </div>
-
         <div>
           <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">Image Web URL</label>
           <input
@@ -550,42 +503,14 @@
             class="w-full bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2 text-xs text-slate-800 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/40"
           />
         </div>
-
-        <div>
-          <label class="block text-[11px] font-bold text-slate-500 dark:text-slate-400 mb-1.5">Or choose sample artwork:</label>
-          <div class="grid grid-cols-4 gap-2">
-            <button type="button" class="sample-cover-btn group relative aspect-[2/3] rounded-lg overflow-hidden border border-slate-200 dark:border-slate-700 hover:border-indigo-500 transition" data-url="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=400&q=80">
-              <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=150&q=60" class="w-full h-full object-cover" alt="Esports Gaming" />
-              <span class="absolute inset-x-0 bottom-0 bg-black/70 text-[9px] text-white text-center py-0.5 font-bold">Cyber</span>
-            </button>
-            <button type="button" class="sample-cover-btn group relative aspect-[2/3] rounded-lg overflow-hidden border border-slate-200 dark:border-slate-700 hover:border-indigo-500 transition" data-url="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=400&q=80">
-              <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=150&q=60" class="w-full h-full object-cover" alt="Space" />
-              <span class="absolute inset-x-0 bottom-0 bg-black/70 text-[9px] text-white text-center py-0.5 font-bold">Space</span>
-            </button>
-            <button type="button" class="sample-cover-btn group relative aspect-[2/3] rounded-lg overflow-hidden border border-slate-200 dark:border-slate-700 hover:border-indigo-500 transition" data-url="https://images.unsplash.com/photo-1579373903781-fd5c0c30c4cd?auto=format&fit=crop&w=400&q=80">
-              <img src="https://images.unsplash.com/photo-1579373903781-fd5c0c30c4cd?auto=format&fit=crop&w=150&q=60" class="w-full h-full object-cover" alt="Neon" />
-              <span class="absolute inset-x-0 bottom-0 bg-black/70 text-[9px] text-white text-center py-0.5 font-bold">Neon</span>
-            </button>
-            <button type="button" class="sample-cover-btn group relative aspect-[2/3] rounded-lg overflow-hidden border border-slate-200 dark:border-slate-700 hover:border-indigo-500 transition" data-url="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=400&q=80">
-              <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=150&q=60" class="w-full h-full object-cover" alt="Pixel Arcade" />
-              <span class="absolute inset-x-0 bottom-0 bg-black/70 text-[9px] text-white text-center py-0.5 font-bold">Arcade</span>
-            </button>
-          </div>
-        </div>
       </div>
-
       <div class="mt-5 flex items-center justify-end gap-2">
-        <button id="cancel-cover-modal-btn" type="button" class="px-3.5 py-1.5 rounded-xl text-xs font-bold text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
-          Cancel
-        </button>
-        <button id="save-cover-url-btn" type="button" class="px-4 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-bold shadow-md shadow-indigo-600/20 transition">
-          Apply Cover
-        </button>
+        <button id="cancel-cover-modal-btn" type="button" class="px-3.5 py-1.5 rounded-xl text-xs font-bold text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Cancel</button>
+        <button id="save-cover-url-btn" type="button" class="px-4 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-bold shadow-md shadow-indigo-600/20 transition">Apply Cover</button>
       </div>
     </div>
   </div>
 
-  <!-- Rename Project Modal -->
   <div id="rename-modal" class="fixed inset-0 z-[60] flex items-center justify-center bg-slate-950/50 dark:bg-black/70 backdrop-blur-sm hidden opacity-0 transition-opacity duration-200 p-4">
     <div class="w-full max-w-sm bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-2xl transform scale-95 transition-transform duration-200" id="rename-modal-box">
       <div class="flex items-center gap-2.5 mb-3">
@@ -596,7 +521,6 @@
         </div>
         <h3 class="text-sm sm:text-base font-bold text-slate-800 dark:text-slate-100">Rename Project</h3>
       </div>
-      
       <div>
         <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5">Project Title</label>
         <input
@@ -607,19 +531,13 @@
           class="w-full bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-800 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/40"
         />
       </div>
-
       <div class="mt-4 flex items-center justify-end gap-2">
-        <button id="cancel-rename-btn" type="button" class="px-3.5 py-1.5 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
-          Cancel
-        </button>
-        <button id="confirm-rename-btn" type="button" class="px-3.5 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 active:scale-95 text-white text-xs font-bold shadow-md shadow-indigo-600/20 transition">
-          Save
-        </button>
+        <button id="cancel-rename-btn" type="button" class="px-3.5 py-1.5 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Cancel</button>
+        <button id="confirm-rename-btn" type="button" class="px-3.5 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 active:scale-95 text-white text-xs font-bold shadow-md shadow-indigo-600/20 transition">Save</button>
       </div>
     </div>
   </div>
 
-  <!-- Delete Project Confirmation Modal -->
   <div id="delete-modal" class="fixed inset-0 z-[60] flex items-center justify-center bg-slate-950/50 dark:bg-black/70 backdrop-blur-sm hidden opacity-0 transition-opacity duration-200 p-4">
     <div class="w-full max-w-sm bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-2xl transform scale-95 transition-transform duration-200" id="delete-modal-box">
       <div class="w-10 h-10 rounded-xl bg-rose-100 dark:bg-rose-950/70 text-rose-600 dark:text-rose-400 flex items-center justify-center mb-3">
@@ -628,26 +546,26 @@
         </svg>
       </div>
       <h3 class="text-sm sm:text-base font-bold text-slate-800 dark:text-slate-100">Delete Project?</h3>
-      <p id="delete-modal-msg" class="text-xs text-slate-500 dark:text-slate-400 mt-1.5 leading-relaxed">
-        Are you sure you want to delete this project? All associated checklist items and artwork will be removed.
-      </p>
+      <p id="delete-modal-msg" class="text-xs text-slate-500 dark:text-slate-400 mt-1.5 leading-relaxed">Are you sure you want to delete this project?</p>
       <div class="mt-4 flex items-center justify-end gap-2.5">
-        <button id="cancel-delete-btn" type="button" class="px-3.5 py-1.5 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
-          Cancel
-        </button>
-        <button id="confirm-delete-btn" type="button" class="px-3.5 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-500 active:scale-95 text-white text-xs font-bold shadow-md shadow-rose-600/20 transition">
-          Yes, Delete
-        </button>
+        <button id="cancel-delete-btn" type="button" class="px-3.5 py-1.5 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Cancel</button>
+        <button id="confirm-delete-btn" type="button" class="px-3.5 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-500 active:scale-95 text-white text-xs font-bold shadow-md shadow-rose-600/20 transition">Yes, Delete</button>
       </div>
     </div>
   </div>
 
-  <!-- Notification Toast Message Box -->
+  <!-- Notification Toast -->
   <div id="toast" class="fixed bottom-6 z-50 pointer-events-none transform translate-y-16 opacity-0 transition-all duration-300 px-4 py-2.5 rounded-2xl bg-slate-900/90 dark:bg-slate-100/90 text-white dark:text-slate-900 text-xs font-bold shadow-xl flex items-center gap-2 backdrop-blur-md">
     <span id="toast-text">Notification message</span>
   </div>
 
   <script>
+    // =========================================================================
+    // PASTE YOUR REALTIME DATABASE URL HERE (Leave the trailing slash)
+    // =========================================================================
+    const FIREBASE_DB_URL = "https://taskpulse-c02a5-default-rtdb.firebaseio.com/"; // <--- REPLACE THIS URL
+    // =========================================================================
+
     class SoundFX {
       constructor() {
         this.ctx = null;
@@ -665,12 +583,10 @@
           this.init();
           if (!this.ctx) return;
           if (this.ctx.state === 'suspended') this.ctx.resume();
-
           const osc = this.ctx.createOscillator();
           const gain = this.ctx.createGain();
           osc.connect(gain);
           gain.connect(this.ctx.destination);
-
           const now = this.ctx.currentTime;
           if (isCompleting) {
             osc.type = 'sine';
@@ -697,14 +613,12 @@
           this.init();
           if (!this.ctx) return;
           if (this.ctx.state === 'suspended') this.ctx.resume();
-
           const notes = [523.25, 659.25, 783.99, 1046.50];
           notes.forEach((freq, idx) => {
             const osc = this.ctx.createOscillator();
             const gain = this.ctx.createGain();
             osc.connect(gain);
             gain.connect(this.ctx.destination);
-
             const start = this.ctx.currentTime + (idx * 0.07);
             osc.type = 'sine';
             osc.frequency.setValueAtTime(freq, start);
@@ -732,43 +646,6 @@
           { id: 'd3', title: '30-minute intense workout', done: false },
           { id: 'd4', title: 'Read 15 pages of non-fiction', done: false }
         ]
-      },
-      {
-        id: 'proj_launch',
-        name: 'Launch Indie Product',
-        emoji: '🎮',
-        coverArt: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=400&q=80',
-        description: 'Complete build, trailer, and store page tasks',
-        tasks: [
-          { id: 'l1', title: 'Prepare 2:3 capsule poster art', done: true },
-          { id: 'l2', title: 'Cut gameplay launch trailer video', done: true },
-          { id: 'l3', title: 'Run beta test with early users', done: true },
-          { id: 'l4', title: 'Publish release build to main branch', done: false }
-        ]
-      },
-      {
-        id: 'proj_fitness',
-        name: 'Fitness & Health Sprint',
-        emoji: '💪',
-        coverArt: '',
-        description: 'Consistency & body conditioning',
-        tasks: [
-          { id: 'f1', title: 'Hydrate 2.5L water throughout day', done: true },
-          { id: 'f2', title: 'Hit 10,000 steps tracker goal', done: false },
-          { id: 'f3', title: 'Prepare high-protein dinner meal', done: false }
-        ]
-      },
-      {
-        id: 'proj_cyber',
-        name: 'Cyber Portfolio',
-        emoji: '⚡',
-        coverArt: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=400&q=80',
-        description: 'Design showcase and live experiments',
-        tasks: [
-          { id: 'c1', title: 'Compile interactive WebGL demos', done: true },
-          { id: 'c2', title: 'Optimise mobile responsive breakpoints', done: true },
-          { id: 'c3', title: 'Connect analytics pipeline', done: true }
-        ]
       }
     ];
 
@@ -784,7 +661,7 @@
     const RADIUS = 66;
     const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
 
-    // View elements
+    // View Elements
     const viewHome = document.getElementById('view-home');
     const viewDetail = document.getElementById('view-detail');
     const navHomeBtn = document.getElementById('nav-home-btn');
@@ -793,7 +670,6 @@
     const detailBackHomeBtn = document.getElementById('detail-back-home-btn');
     const detailProjectTaskPill = document.getElementById('detail-project-task-pill');
 
-    // Drawer bindings
     const sidebar = document.getElementById('sidebar');
     const sidebarBackdrop = document.getElementById('sidebar-backdrop');
     const openSidebarBtn = document.getElementById('open-sidebar-btn');
@@ -807,7 +683,6 @@
     const projectCounterBadge = document.getElementById('project-counter-badge');
     const sidebarResetBtn = document.getElementById('sidebar-reset-btn');
 
-    // Project creation elements
     const openNewProjectBtn = document.getElementById('open-new-project-btn');
     const newProjectForm = document.getElementById('new-project-form');
     const newProjectInput = document.getElementById('new-project-input');
@@ -816,7 +691,6 @@
     const selectedEmojiBtn = document.getElementById('selected-emoji-btn');
     const emojiPicker = document.getElementById('emoji-picker');
 
-    // Cover Art elements
     const coverArtImg = document.getElementById('cover-art-img');
     const coverArtDefault = document.getElementById('cover-art-default');
     const defaultCoverTitle = document.getElementById('default-cover-title');
@@ -825,7 +699,6 @@
     const addCoverBtn = document.getElementById('add-cover-btn');
     const deleteCoverBtn = document.getElementById('delete-cover-btn');
 
-    // Modals
     const coverModal = document.getElementById('cover-modal');
     const coverModalBox = document.getElementById('cover-modal-box');
     const closeCoverModalBtn = document.getElementById('close-cover-modal-btn');
@@ -846,7 +719,6 @@
     const cancelDeleteBtn = document.getElementById('cancel-delete-btn');
     const confirmDeleteBtn = document.getElementById('confirm-delete-btn');
 
-    // Progress Donut elements
     const progressCircle = document.getElementById('progress-circle');
     const glowColor = document.getElementById('glow-color');
     const ambientGlow = document.getElementById('ambient-glow');
@@ -855,7 +727,6 @@
     const tasksRatio = document.getElementById('tasks-ratio');
     const motivationText = document.getElementById('motivation-text');
 
-    // Checklist elements
     const taskList = document.getElementById('task-list');
     const taskInput = document.getElementById('task-input');
     const addTaskForm = document.getElementById('add-task-form');
@@ -864,7 +735,6 @@
     const checkAllBtn = document.getElementById('check-all-btn');
     const clearBtn = document.getElementById('clear-btn');
 
-    // Control preferences
     const themeBtn = document.getElementById('theme-btn');
     const soundBtn = document.getElementById('sound-btn');
     const soundIconOn = document.getElementById('sound-icon-on');
@@ -886,6 +756,96 @@
       }, 2200);
     }
 
+    // ==========================================
+    // ZERO-SDK REALTIME FIREBASE SYNC ENGINE
+    // ==========================================
+    let syncPending = false;
+
+    function getEndpoint() {
+      let base = FIREBASE_DB_URL.trim();
+      if (!base.endsWith('/')) base += '/';
+      return `${base}taskpulse_vault.json`;
+    }
+
+    async function pushToCloud() {
+      const syncDot = document.getElementById('sync-dot');
+      const syncText = document.getElementById('sync-text');
+      if (syncDot) syncDot.className = "w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping";
+      if (syncText) syncText.textContent = "Syncing...";
+
+      try {
+        await fetch(getEndpoint(), {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            projects: projects,
+            activeProjectId: activeProjectId,
+            updatedAt: Date.now()
+          })
+        });
+        if (syncDot) syncDot.className = "w-1.5 h-1.5 rounded-full bg-emerald-500";
+        if (syncText) syncText.textContent = "Synced";
+      } catch (err) {
+        console.warn('Cloud sync error:', err);
+        if (syncDot) syncDot.className = "w-1.5 h-1.5 rounded-full bg-rose-500";
+        if (syncText) syncText.textContent = "Offline";
+      }
+    }
+
+    async function pullFromCloud() {
+      try {
+        const res = await fetch(getEndpoint());
+        if (!res.ok) return;
+        const data = await res.json();
+        if (data && data.projects && Array.isArray(data.projects)) {
+          projects = data.projects;
+          if (data.activeProjectId && projects.some(p => p.id === data.activeProjectId)) {
+            activeProjectId = data.activeProjectId;
+          } else if (projects.length > 0) {
+            activeProjectId = projects[0].id;
+          }
+          renderProjectsSidebar();
+          if (activeView === 'home') renderHomeGrid();
+          else renderActiveProject();
+        }
+      } catch (err) {
+        console.warn('Pull failed:', err);
+      }
+    }
+
+    // SSE Realtime Stream: updates immediately when other devices modify tasks
+    function startRealtimeStream() {
+      try {
+        const sse = new EventSource(getEndpoint());
+        sse.addEventListener('put', (e) => {
+          try {
+            const payload = JSON.parse(e.data);
+            if (payload && payload.data && payload.data.projects) {
+              projects = payload.data.projects;
+              if (payload.data.activeProjectId) activeProjectId = payload.data.activeProjectId;
+              renderProjectsSidebar();
+              if (activeView === 'home') renderHomeGrid();
+              else renderActiveProject();
+            }
+          } catch (err) {}
+        });
+      } catch (err) {
+        // Fallback polling for browsers with strict iframe restrictions
+        setInterval(pullFromCloud, 4000);
+      }
+    }
+
+    function saveData() {
+      // 1. Instant local persistence
+      try {
+        localStorage.setItem('taskpulse_projects_v5', JSON.stringify(projects));
+        localStorage.setItem('taskpulse_active_id_v5', activeProjectId);
+      } catch (e) {}
+
+      // 2. Cloud push to Google Firebase
+      pushToCloud();
+    }
+
     function calculateProgress(project) {
       const total = project.tasks ? project.tasks.length : 0;
       const done = project.tasks ? project.tasks.filter(t => t.done).length : 0;
@@ -900,21 +860,16 @@
       if (view === 'home') {
         viewHome.classList.remove('hidden');
         viewDetail.classList.add('hidden');
-
         navHomeBtn.className = "flex items-center gap-2 px-3 sm:px-3.5 py-2 rounded-2xl border transition-all duration-200 font-bold text-xs shadow-sm bg-indigo-600 text-white border-indigo-600 shadow-indigo-600/20 active:scale-95";
         headerProjectTrigger.classList.add('hidden');
-
         renderHomeGrid();
       } else {
         viewHome.classList.add('hidden');
         viewDetail.classList.remove('hidden');
-
         navHomeBtn.className = "flex items-center gap-2 px-3 sm:px-3.5 py-2 rounded-2xl border transition-all duration-200 font-bold text-xs shadow-sm border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 active:scale-95";
         headerProjectTrigger.classList.remove('hidden');
-
         renderActiveProject();
       }
-      saveData();
     }
 
     navHomeBtn.addEventListener('click', () => setView('home'));
@@ -928,7 +883,6 @@
       setView('detail');
     }
 
-    // --- INLINE EDITING ACTIVATOR ---
     function triggerInlineEdit(titleElement, projectId) {
       const project = projects.find(p => p.id === projectId);
       if (!project || titleElement.querySelector('input')) return;
@@ -953,7 +907,6 @@
       const finishEdit = (save) => {
         if (committed) return;
         committed = true;
-
         if (save) {
           const updatedName = input.value.trim();
           if (updatedName && updatedName !== currentName) {
@@ -983,7 +936,6 @@
       input.addEventListener('blur', () => finishEdit(true));
     }
 
-    // --- VIEW 1: RENDER HOME GRID ---
     function renderHomeGrid() {
       homeGrid.innerHTML = '';
 
@@ -996,15 +948,9 @@
         card.setAttribute('data-id', project.id);
 
         card.innerHTML = `
-          <!-- 2:3 Capsule Poster -->
           <div class="card-capsule-box cursor-pointer relative w-full aspect-[2/3] rounded-2xl overflow-hidden border-2 border-slate-200/90 dark:border-slate-800 shadow-md group-hover:shadow-xl group-hover:border-indigo-500/80 dark:group-hover:border-indigo-400 transition-all bg-white flex flex-col">
-            
             ${project.coverArt ? `
-              <img
-                src="${project.coverArt}"
-                alt="${escapeHtml(project.name)}"
-                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-              />
+              <img src="${project.coverArt}" alt="${escapeHtml(project.name)}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
               <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-40 group-hover:opacity-20 transition-opacity"></div>
               <div class="absolute bottom-2.5 left-2.5 z-10 pointer-events-none">
                 <span class="text-[9px] font-extrabold uppercase tracking-wider px-1.5 py-0.5 rounded-md bg-black/60 backdrop-blur-sm text-white/90">
@@ -1012,68 +958,41 @@
                 </span>
               </div>
             ` : `
-              <!-- Default White Background Cover with Title Printed in Center -->
               <div class="w-full h-full p-4 flex flex-col items-center justify-between text-center bg-white text-slate-900 transition-colors">
                 <div class="w-full flex items-center justify-between opacity-50">
                   <span class="text-[9px] font-extrabold uppercase tracking-wider text-slate-400">CAPSULE</span>
                   <span class="text-sm">${project.emoji}</span>
                 </div>
-                
                 <div class="my-auto px-1 flex flex-col items-center w-full">
-                  <h4 
-                    class="editable-project-title font-extrabold text-sm sm:text-base leading-tight tracking-tight text-slate-900 hover:text-indigo-600 transition-colors line-clamp-4 break-words cursor-text p-1 rounded-lg hover:bg-slate-50"
-                    title="Double-click to rename"
-                    data-id="${project.id}"
-                  >
+                  <h4 class="editable-project-title font-extrabold text-sm sm:text-base leading-tight tracking-tight text-slate-900 hover:text-indigo-600 transition-colors line-clamp-4 break-words cursor-text p-1 rounded-lg hover:bg-slate-50" title="Double-click to rename" data-id="${project.id}">
                     ${escapeHtml(project.name)}
                   </h4>
                 </div>
-
                 <div class="w-full flex justify-center">
-                  <span class="text-[8px] font-bold uppercase tracking-widest text-slate-400 bg-slate-100 px-2 py-0.5 rounded-md">
-                    TaskPulse
-                  </span>
+                  <span class="text-[8px] font-bold uppercase tracking-widest text-slate-400 bg-slate-100 px-2 py-0.5 rounded-md">TaskPulse</span>
                 </div>
               </div>
             `}
-
-            <!-- Top right completion badge -->
             ${percent === 100 ? `
               <div class="absolute top-2 right-2 z-10">
-                <span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-500 text-white shadow-sm flex items-center gap-1">
-                  ✓ DONE
-                </span>
+                <span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-500 text-white shadow-sm flex items-center gap-1">✓ DONE</span>
               </div>
             ` : ''}
           </div>
 
-          <!-- Bottom Meta & Progressive Line Indicator -->
           <div class="mt-2.5 px-0.5 flex flex-col gap-1.5">
             <div class="flex items-center justify-between gap-1">
-              <div 
-                class="editable-project-title flex-1 min-w-0 font-bold text-xs sm:text-sm tracking-tight text-slate-800 dark:text-slate-100 truncate hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors cursor-text p-0.5 rounded"
-                title="Double-click to rename"
-                data-id="${project.id}"
-              >
+              <div class="editable-project-title flex-1 min-w-0 font-bold text-xs sm:text-sm tracking-tight text-slate-800 dark:text-slate-100 truncate hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors cursor-text p-0.5 rounded" title="Double-click to rename" data-id="${project.id}">
                 <span>${project.emoji}</span>
                 <span class="title-text-node ml-0.5">${escapeHtml(project.name)}</span>
               </div>
-              <span class="text-[11px] font-semibold text-slate-400 dark:text-slate-500 flex-shrink-0">
-                ${done}/${total}
-              </span>
+              <span class="text-[11px] font-semibold text-slate-400 dark:text-slate-500 flex-shrink-0">${done}/${total}</span>
             </div>
-
-            <!-- Small progressive line indicator with dynamic progress color -->
             <div class="flex items-center gap-2 cursor-pointer card-line-trigger">
               <div class="flex-1 h-1.5 sm:h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
-                <div
-                  class="h-full rounded-full transition-all duration-500"
-                  style="width: ${percent}%; background-color: ${strokeColor};"
-                ></div>
+                <div class="h-full rounded-full transition-all duration-500" style="width: ${percent}%; background-color: ${strokeColor};"></div>
               </div>
-              <span class="metric-brico text-xs font-bold text-slate-700 dark:text-slate-300 min-w-[28px] text-right">
-                ${percent}%
-              </span>
+              <span class="metric-brico text-xs font-bold text-slate-700 dark:text-slate-300 min-w-[28px] text-right">${percent}%</span>
             </div>
           </div>
         `;
@@ -1091,12 +1010,8 @@
         });
 
         card.querySelectorAll('.editable-project-title').forEach(titleElem => {
-          titleElem.addEventListener('click', (e) => {
-            e.stopPropagation();
-          });
-          titleElem.addEventListener('mousedown', (e) => {
-            e.stopPropagation();
-          });
+          titleElem.addEventListener('click', (e) => e.stopPropagation());
+          titleElem.addEventListener('mousedown', (e) => e.stopPropagation());
           titleElem.addEventListener('dblclick', (e) => {
             e.stopPropagation();
             e.preventDefault();
@@ -1107,7 +1022,6 @@
         homeGrid.appendChild(card);
       });
 
-      // Quick "+ Add Project" Card in Home Grid
       const addCard = document.createElement('div');
       addCard.className = "flex flex-col select-none cursor-pointer group";
       addCard.innerHTML = `
@@ -1260,8 +1174,8 @@
       const file = e.target.files && e.target.files[0];
       if (!file) return;
 
-      if (file.size > 3.5 * 1024 * 1024) {
-        showToast('Image file too large (max 3.5MB)');
+      if (file.size > 2.5 * 1024 * 1024) {
+        showToast('Image too large (max 2.5MB)');
         return;
       }
 
@@ -1286,19 +1200,10 @@
       }
     });
 
-    document.querySelectorAll('.sample-cover-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const url = btn.getAttribute('data-url');
-        setProjectCoverArt(url);
-        closeCoverModal();
-        showToast('Sample artwork applied');
-      });
-    });
-
     deleteCoverBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       setProjectCoverArt('');
-      showToast('Custom cover removed (Default restored)');
+      showToast('Custom cover removed');
     });
 
     function setProjectCoverArt(urlOrData) {
@@ -1333,7 +1238,6 @@
       }
     }
 
-    // --- RENAME PROJECT MODAL (DRAWER BUTTON) ---
     function openRenameModal(projectId) {
       const proj = projects.find(p => p.id === projectId);
       if (!proj) return;
@@ -1397,7 +1301,6 @@
       if (e.key === 'Escape') closeRenameModal();
     });
 
-    // --- DELETE PROJECT MODAL HANDLING ---
     function openDeleteModal(projectId) {
       const proj = projects.find(p => p.id === projectId);
       if (!proj) return;
@@ -1408,7 +1311,7 @@
       }
 
       projectPendingDeleteId = projectId;
-      deleteModalMsg.innerHTML = `Are you sure you want to delete <strong class="text-slate-800 dark:text-slate-100">"${escapeHtml(proj.name)}"</strong> and its checklist? This cannot be undone.`;
+      deleteModalMsg.innerHTML = `Are you sure you want to delete <strong class="text-slate-800 dark:text-slate-100">"${escapeHtml(proj.name)}"</strong> and its checklist?`;
       
       deleteModal.classList.remove('hidden');
       requestAnimationFrame(() => {
@@ -1437,38 +1340,20 @@
 
     function executeDeleteProject() {
       if (!projectPendingDeleteId) return;
-
       const targetId = projectPendingDeleteId;
       const targetProj = projects.find(p => p.id === targetId);
       const targetName = targetProj ? targetProj.name : 'Project';
 
       projects = projects.filter(p => p.id !== targetId);
-
       if (activeProjectId === targetId) {
-        if (projects.length > 0) {
-          activeProjectId = projects[0].id;
-        } else {
-          const fallback = {
-            id: 'proj_' + Date.now(),
-            name: 'General Tasks',
-            emoji: '🎯',
-            coverArt: '',
-            description: '',
-            tasks: []
-          };
-          projects.push(fallback);
-          activeProjectId = fallback.id;
-        }
+        activeProjectId = projects[0]?.id || 'proj_daily';
         previousPercent = -1;
       }
 
       saveData();
       renderProjectsSidebar();
-      if (activeView === 'home') {
-        renderHomeGrid();
-      } else {
-        renderActiveProject();
-      }
+      if (activeView === 'home') renderHomeGrid();
+      else renderActiveProject();
       closeDeleteModal();
       showToast(`Deleted "${targetName}"`);
     }
@@ -1520,7 +1405,6 @@
               class="rename-project-btn p-1.5 rounded-xl text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-950/50 transition-colors"
               title="Rename project"
               data-id="${project.id}"
-              aria-label="Rename ${escapeHtml(project.name)}"
             >
               <svg class="w-4 h-4 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
@@ -1533,7 +1417,6 @@
                 class="delete-project-btn p-1.5 rounded-xl text-slate-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/50 transition-colors"
                 title="Delete project"
                 data-id="${project.id}"
-                aria-label="Delete ${escapeHtml(project.name)}"
               >
                 <svg class="w-4 h-4 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -1554,8 +1437,7 @@
       if (renameBtn) {
         e.preventDefault();
         e.stopPropagation();
-        const id = renameBtn.getAttribute('data-id');
-        openRenameModal(id);
+        openRenameModal(renameBtn.getAttribute('data-id'));
         return;
       }
 
@@ -1563,8 +1445,7 @@
       if (delBtn) {
         e.preventDefault();
         e.stopPropagation();
-        const id = delBtn.getAttribute('data-id');
-        openDeleteModal(id);
+        openDeleteModal(delBtn.getAttribute('data-id'));
         return;
       }
 
@@ -1575,7 +1456,6 @@
           selectProjectAndOpenDetail(id);
           closeSidebar();
         }
-        return;
       }
     });
 
@@ -1584,11 +1464,8 @@
       activeProjectId = projects[0].id;
       saveData();
       renderProjectsSidebar();
-      if (activeView === 'home') {
-        renderHomeGrid();
-      } else {
-        renderActiveProject();
-      }
+      if (activeView === 'home') renderHomeGrid();
+      else renderActiveProject();
       closeSidebar();
       showToast('Default projects restored');
     });
@@ -1600,23 +1477,14 @@
     function triggerCelebration() {
       sound.playCelebration();
       if (typeof confetti === 'function') {
-        confetti({
-          particleCount: 55,
-          angle: 60,
-          spread: 60,
-          origin: { x: 0.15, y: 0.6 }
-        });
-        confetti({
-          particleCount: 55,
-          angle: 120,
-          spread: 60,
-          origin: { x: 0.85, y: 0.6 }
-        });
+        confetti({ particleCount: 55, angle: 60, spread: 60, origin: { x: 0.15, y: 0.6 } });
+        confetti({ particleCount: 55, angle: 120, spread: 60, origin: { x: 0.85, y: 0.6 } });
       }
     }
 
     function updateProgressRing() {
       const project = getActiveProject();
+      if (!project) return;
       const { total, done, progress, percent, hue } = calculateProgress(project);
 
       const offset = CIRCUMFERENCE - (progress * CIRCUMFERENCE);
@@ -1642,10 +1510,7 @@
         pctBadge.textContent = 'Completed!';
         pctBadge.className = 'text-[10px] sm:text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full mb-1 bg-emerald-100/90 dark:bg-emerald-950/70 text-emerald-600 dark:text-emerald-400 transition-colors shadow-sm';
         motivationText.innerHTML = `<span class="text-emerald-600 dark:text-emerald-400 font-bold flex items-center gap-1"><svg class="w-3.5 h-3.5 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg> All project tasks finished!</span>`;
-
-        if (previousPercent < 100 && previousPercent !== -1) {
-          triggerCelebration();
-        }
+        if (previousPercent < 100 && previousPercent !== -1) triggerCelebration();
       } else if (percent >= 66) {
         pctBadge.textContent = 'Almost There';
         pctBadge.className = 'text-[10px] sm:text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full mb-1 bg-lime-100/90 dark:bg-lime-950/70 text-lime-700 dark:text-lime-300 transition-colors';
@@ -1659,12 +1524,12 @@
         pctBadge.className = 'text-[10px] sm:text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full mb-1 bg-red-100/90 dark:bg-red-950/70 text-red-600 dark:text-red-400 transition-colors';
         motivationText.innerHTML = `<span>Tap checklist items to advance</span>`;
       }
-
       previousPercent = percent;
     }
 
     function renderActiveProject() {
       const project = getActiveProject();
+      if (!project) return;
 
       headerProjectName.textContent = project.name;
       headerProjectEmoji.textContent = project.emoji;
@@ -1674,7 +1539,7 @@
       updateCoverDisplay();
 
       taskList.innerHTML = '';
-      const filteredTasks = project.tasks.filter(task => {
+      const filteredTasks = (project.tasks || []).filter(task => {
         if (currentFilter === 'pending') return !task.done;
         if (currentFilter === 'completed') return task.done;
         return true;
@@ -1726,7 +1591,6 @@
               </svg>
             </button>
           `;
-
           taskList.appendChild(li);
         });
       }
@@ -1743,6 +1607,7 @@
 
     function toggleTask(id) {
       const project = getActiveProject();
+      if (!project) return;
       project.tasks = project.tasks.map(t => {
         if (t.id === id) {
           const next = !t.done;
@@ -1757,6 +1622,7 @@
 
     function deleteTask(id) {
       const project = getActiveProject();
+      if (!project) return;
       project.tasks = project.tasks.filter(t => t.id !== id);
       saveData();
       renderActiveProject();
@@ -1766,31 +1632,21 @@
     taskList.addEventListener('click', (e) => {
       const toggle = e.target.closest('.task-toggle');
       if (toggle) {
-        const id = toggle.getAttribute('data-id');
-        toggleTask(id);
+        toggleTask(toggle.getAttribute('data-id'));
         return;
       }
-
       const delBtn = e.target.closest('.delete-task-btn');
-      if (delBtn) {
-        const id = delBtn.getAttribute('data-id');
-        deleteTask(id);
-      }
+      if (delBtn) deleteTask(delBtn.getAttribute('data-id'));
     });
 
     addTaskForm.addEventListener('submit', (e) => {
       e.preventDefault();
       const text = taskInput.value.trim();
       if (!text) return;
-
       const project = getActiveProject();
-      const newTask = {
-        id: 't_' + Date.now(),
-        title: text,
-        done: false
-      };
-
-      project.tasks.unshift(newTask);
+      if (!project) return;
+      if (!project.tasks) project.tasks = [];
+      project.tasks.unshift({ id: 't_' + Date.now(), title: text, done: false });
       taskInput.value = '';
       saveData();
       renderActiveProject();
@@ -1799,15 +1655,15 @@
 
     projectDescInput.addEventListener('input', (e) => {
       const project = getActiveProject();
-      project.description = e.target.value;
-      saveData();
+      if (project) {
+        project.description = e.target.value;
+        saveData();
+      }
     });
 
     filterBtns.forEach(btn => {
       btn.addEventListener('click', () => {
-        filterBtns.forEach(b => {
-          b.className = 'filter-btn px-3 py-1.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition font-bold';
-        });
+        filterBtns.forEach(b => b.className = 'filter-btn px-3 py-1.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition font-bold');
         btn.className = 'filter-btn px-3 py-1.5 rounded-lg bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 shadow-sm transition font-bold';
         currentFilter = btn.getAttribute('data-filter');
         renderActiveProject();
@@ -1816,7 +1672,7 @@
 
     checkAllBtn.addEventListener('click', () => {
       const project = getActiveProject();
-      if (project.tasks.length === 0) return;
+      if (!project || project.tasks.length === 0) return;
       const allDone = project.tasks.every(t => t.done);
       project.tasks = project.tasks.map(t => ({ ...t, done: !allDone }));
       sound.playCheck(!allDone);
@@ -1827,6 +1683,7 @@
 
     clearBtn.addEventListener('click', () => {
       const project = getActiveProject();
+      if (!project) return;
       const beforeCount = project.tasks.length;
       project.tasks = project.tasks.filter(t => !t.done);
       if (project.tasks.length === beforeCount) {
@@ -1840,16 +1697,10 @@
 
     soundBtn.addEventListener('click', () => {
       sound.enabled = !sound.enabled;
-      if (sound.enabled) {
-        soundIconOn.classList.remove('hidden');
-        soundIconOff.classList.add('hidden');
-        sound.init();
-        showToast('Sound enabled');
-      } else {
-        soundIconOn.classList.add('hidden');
-        soundIconOff.classList.remove('hidden');
-        showToast('Sound muted');
-      }
+      soundIconOn.classList.toggle('hidden', !sound.enabled);
+      soundIconOff.classList.toggle('hidden', sound.enabled);
+      if (sound.enabled) sound.init();
+      showToast(sound.enabled ? 'Sound enabled' : 'Sound muted');
     });
 
     themeBtn.addEventListener('click', () => {
@@ -1858,15 +1709,8 @@
       localStorage.setItem('taskpulse_theme', isDark ? 'dark' : 'light');
     });
 
-    function saveData() {
-      try {
-        localStorage.setItem('taskpulse_projects_v4', JSON.stringify(projects));
-        localStorage.setItem('taskpulse_active_id_v4', activeProjectId);
-        localStorage.setItem('taskpulse_active_view_v4', activeView);
-      } catch (e) {}
-    }
-
-    function initApp() {
+    async function initApp() {
+      // 1. Theme
       const savedTheme = localStorage.getItem('taskpulse_theme');
       if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
         document.documentElement.classList.add('dark');
@@ -1874,34 +1718,27 @@
         document.documentElement.classList.remove('dark');
       }
 
+      // 2. Load cached local backup immediately for instant paint
       try {
-        const storedProjs = localStorage.getItem('taskpulse_projects_v4');
-        const storedActive = localStorage.getItem('taskpulse_active_id_v4');
-        const storedView = localStorage.getItem('taskpulse_active_view_v4');
-
-        if (storedProjs) {
-          projects = JSON.parse(storedProjs);
+        const stored = localStorage.getItem('taskpulse_projects_v5');
+        if (stored) {
+          projects = JSON.parse(stored);
+          activeProjectId = localStorage.getItem('taskpulse_active_id_v5') || projects[0].id;
         } else {
           projects = JSON.parse(JSON.stringify(SEED_PROJECTS));
-        }
-
-        if (storedActive && projects.some(p => p.id === storedActive)) {
-          activeProjectId = storedActive;
-        } else if (projects.length > 0) {
           activeProjectId = projects[0].id;
-        }
-
-        if (storedView === 'detail' || storedView === 'home') {
-          activeView = storedView;
         }
       } catch (e) {
         projects = JSON.parse(JSON.stringify(SEED_PROJECTS));
         activeProjectId = projects[0].id;
-        activeView = 'home';
       }
 
       renderProjectsSidebar();
-      setView(activeView);
+      setView('home');
+
+      // 3. Connect to cloud database
+      await pullFromCloud();
+      startRealtimeStream();
     }
 
     window.addEventListener('DOMContentLoaded', initApp);
