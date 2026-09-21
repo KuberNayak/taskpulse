@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <!-- Prevents mobile viewport zooming on input focus -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>TaskPulse - Project Dashboard & Showcase</title>
   <!-- PWA & Mobile Meta Tags -->
@@ -45,6 +46,7 @@
       -webkit-tap-highlight-color: transparent;
     }
 
+    /* Keep inputs at 16px minimum on mobile to disable iOS zoom */
     @media screen and (max-width: 768px) {
       input[type="text"],
       input[type="url"],
@@ -270,7 +272,7 @@
         id="home-create-proj-btn"
         class="flex items-center justify-center gap-2 px-4 py-2.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 active:scale-95 text-white font-bold text-xs sm:text-sm shadow-md shadow-indigo-600/20 transition self-start sm:self-auto"
       >
-        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+        <svg class="w-4 h-4 fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
           <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
         </svg>
         <span>New Project</span>
@@ -360,7 +362,7 @@
           </div>
         </div>
 
-        <!-- Progress Donut (Nudged slightly right with translate-x, message neatly wrapped and centered) -->
+        <!-- Progress Donut (Shifted slightly right, message wrapped & centered) -->
         <div class="flex flex-col items-center justify-center flex-shrink-0 translate-x-2 sm:translate-x-3">
           <div class="relative w-36 h-36 sm:w-44 sm:h-44 flex items-center justify-center">
             <svg class="w-full h-full" viewBox="0 0 160 160">
@@ -395,7 +397,7 @@
             </div>
           </div>
 
-          <!-- Centered & wrapped motivation text constrained to donut width -->
+          <!-- Wrapped & centered message -->
           <div id="motivation-text" class="mt-2 text-[11px] sm:text-xs font-medium text-slate-500 dark:text-slate-400 text-center leading-tight max-w-[140px] sm:max-w-[160px] mx-auto min-h-[28px] flex items-center justify-center transition-all">
             <span>Tap items to advance</span>
           </div>
