@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <!-- Prevents mobile viewport zooming on input focus -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>TaskPulse - Project Dashboard & Showcase</title>
   <!-- PWA & Mobile Meta Tags -->
@@ -46,7 +45,6 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    /* Keep inputs at 16px minimum on mobile to disable iOS zoom */
     @media screen and (max-width: 768px) {
       input[type="text"],
       input[type="url"],
@@ -362,9 +360,9 @@
           </div>
         </div>
 
-        <!-- Progress Donut (Shifted slightly right, message wrapped & centered) -->
-        <div class="flex flex-col items-center justify-center flex-shrink-0 translate-x-2 sm:translate-x-3">
-          <div class="relative w-36 h-36 sm:w-44 sm:h-44 flex items-center justify-center">
+        <!-- Progress Donut (Placed slightly right; motivation text tightly attached and centered in absolute middle) -->
+        <div class="flex flex-col items-center justify-center flex-shrink-0 translate-x-2 sm:translate-x-3 w-36 sm:w-44">
+          <div class="relative w-36 h-36 sm:w-44 sm:h-44 flex items-center justify-center mx-auto">
             <svg class="w-full h-full" viewBox="0 0 160 160">
               <defs>
                 <filter id="progress-glow" x="-20%" y="-20%" width="140%" height="140%">
@@ -397,8 +395,8 @@
             </div>
           </div>
 
-          <!-- Wrapped & centered message -->
-          <div id="motivation-text" class="mt-2 text-[11px] sm:text-xs font-medium text-slate-500 dark:text-slate-400 text-center leading-tight max-w-[140px] sm:max-w-[160px] mx-auto min-h-[28px] flex items-center justify-center transition-all">
+          <!-- Motivation Text: Halved distance (mt-0.5), centered horizontally directly under the donut ring -->
+          <div id="motivation-text" class="mt-0.5 w-full text-[11px] sm:text-xs font-medium text-slate-500 dark:text-slate-400 text-center leading-snug min-h-[28px] flex flex-col items-center justify-center px-1 transition-all">
             <span>Tap items to advance</span>
           </div>
         </div>
@@ -1528,7 +1526,7 @@
       } else if (percent === 100) {
         pctBadge.textContent = 'Completed!';
         pctBadge.className = 'text-[9px] sm:text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full mb-0.5 bg-emerald-100/90 dark:bg-emerald-950/70 text-emerald-600 dark:text-emerald-400 transition-colors shadow-sm';
-        motivationText.innerHTML = `<span class="text-emerald-600 dark:text-emerald-400 font-bold flex items-center justify-center gap-1"><svg class="w-3 h-3 inline flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg> All tasks finished!</span>`;
+        motivationText.innerHTML = `<span class="text-emerald-600 dark:text-emerald-400 font-bold flex items-center justify-center gap-1 text-center"><svg class="w-3 h-3 inline flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg> All tasks finished!</span>`;
         if (previousPercent < 100 && previousPercent !== -1) triggerCelebration();
       } else if (percent >= 66) {
         pctBadge.textContent = 'Almost There';
