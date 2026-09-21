@@ -1746,7 +1746,9 @@
       await pullFromCloud();
       startRealtimeStream();
     }
-
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./sw.js').catch(() => {});
+}
     window.addEventListener('DOMContentLoaded', initApp);
   </script>
 </body>
