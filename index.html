@@ -114,7 +114,7 @@
         </div>
         <div>
           <h2 class="font-extrabold text-base tracking-tight leading-none">TaskPulse</h2>
-          <span class="text-xs text-slate-400 dark:text-slate-500 font-medium">Projects & 2:3 Covers</span>
+          <span class="text-xs text-slate-400 dark:text-slate-500 font-medium">Manage Projects</span>
         </div>
       </div>
       <button id="close-sidebar-btn" aria-label="Close sidebar" class="p-2 rounded-xl text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
@@ -290,49 +290,50 @@
 
     <!-- Main Detail Glass Panel -->
     <div class="w-full glass-panel border border-slate-200/80 dark:border-slate-800/80 rounded-[2rem] shadow-glass shadow-slate-300/20 dark:shadow-black/40 overflow-hidden flex flex-col">
-      <section class="p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-around gap-6 sm:gap-8 border-b border-slate-100 dark:border-slate-800/60 relative bg-gradient-to-b from-white/50 to-slate-50/20 dark:from-slate-900/50 dark:to-slate-900/10">
+      <!-- Top Section: Side-by-Side Responsive Layout for Mobile & Desktop -->
+      <section class="p-4 sm:p-7 flex flex-row items-center justify-center gap-5 sm:gap-10 border-b border-slate-100 dark:border-slate-800/60 relative bg-gradient-to-b from-white/50 to-slate-50/20 dark:from-slate-900/50 dark:to-slate-900/10">
         
-        <!-- Centered Cover Wrapper -->
+        <!-- Cover Wrapper (Responsive sizing: sleek 115px on mobile, 145px on desktop) -->
         <div class="relative flex items-center justify-center flex-shrink-0">
           <div
             id="detail-cover-box"
-            class="relative w-[148px] sm:w-[162px] aspect-[2/3] rounded-2xl overflow-hidden border-2 border-slate-200/90 dark:border-slate-700/80 bg-white dark:bg-white shadow-lg shadow-slate-300/30 dark:shadow-black/60 transition-all duration-300 hover:shadow-xl flex flex-col items-center justify-center flex-shrink-0"
+            class="relative w-[115px] sm:w-[145px] aspect-[2/3] rounded-2xl overflow-hidden border-2 border-slate-200/90 dark:border-slate-700/80 bg-white dark:bg-white shadow-md shadow-slate-300/30 dark:shadow-black/60 transition-all duration-300 hover:shadow-lg flex flex-col items-center justify-center flex-shrink-0"
           >
             <img id="cover-art-img" src="" alt="Project Cover" class="w-full h-full object-cover hidden transition-all duration-300" />
             
-            <div id="cover-art-default" class="w-full h-full p-4 flex flex-col items-center justify-between text-center bg-white text-slate-900 select-none transition-all">
+            <div id="cover-art-default" class="w-full h-full p-3 sm:p-4 flex flex-col items-center justify-between text-center bg-white text-slate-900 select-none transition-all">
               <div class="w-full flex items-center justify-between opacity-50">
-                <span class="text-[9px] font-extrabold uppercase tracking-wider text-slate-500">Capsule</span>
-                <span id="default-cover-emoji" class="text-sm">🎯</span>
+                <span class="text-[8px] sm:text-[9px] font-extrabold uppercase tracking-wider text-slate-500">Capsule</span>
+                <span id="default-cover-emoji" class="text-xs sm:text-sm">🎯</span>
               </div>
               <div class="my-auto px-1 flex flex-col items-center">
-                <h3 id="default-cover-title" class="font-extrabold text-base sm:text-lg leading-tight tracking-tight text-slate-900 line-clamp-4 break-words">
+                <h3 id="default-cover-title" class="font-extrabold text-xs sm:text-base leading-tight tracking-tight text-slate-900 line-clamp-4 break-words">
                   Project Title
                 </h3>
               </div>
               <div class="w-full flex justify-center">
-                <span class="text-[8px] font-bold uppercase tracking-widest text-slate-400 bg-slate-100 px-2 py-0.5 rounded-md">
-                  TaskPulse 2:3
+                <span class="text-[7px] sm:text-[8px] font-bold uppercase tracking-widest text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded-md">
+                  TaskPulse
                 </span>
               </div>
             </div>
 
-            <div id="cover-art-ratio-badge" class="absolute bottom-2 left-2 z-10 pointer-events-none hidden">
-              <span class="text-[9px] font-extrabold uppercase tracking-wider px-1.5 py-0.5 rounded-md bg-black/60 backdrop-blur-sm text-white/90">
+            <div id="cover-art-ratio-badge" class="absolute bottom-1.5 left-1.5 z-10 pointer-events-none hidden">
+              <span class="text-[8px] font-extrabold uppercase tracking-wider px-1.5 py-0.5 rounded-md bg-black/60 backdrop-blur-sm text-white/90">
                 2:3
               </span>
             </div>
           </div>
 
-          <!-- Floating Action Buttons (Removed from flex flow) -->
-          <div class="absolute -right-10 sm:-right-11 bottom-2 flex flex-col items-center gap-2 z-20">
+          <!-- Cover Action Buttons (Floating, non-disruptive) -->
+          <div class="absolute -right-8 sm:-right-9 bottom-1 flex flex-col items-center gap-1.5 z-20">
             <button
               id="add-cover-btn"
               type="button"
               title="Add or change cover art"
-              class="w-8 h-8 rounded-xl bg-white dark:bg-slate-800 hover:bg-indigo-50 dark:hover:bg-indigo-950/60 text-slate-700 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 shadow-md shadow-slate-200/50 dark:shadow-black/40 border border-slate-200 dark:border-slate-700 flex items-center justify-center active:scale-90 transition-all"
+              class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-white dark:bg-slate-800 hover:bg-indigo-50 dark:hover:bg-indigo-950/60 text-slate-700 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 shadow-md shadow-slate-200/50 dark:shadow-black/40 border border-slate-200 dark:border-slate-700 flex items-center justify-center active:scale-90 transition-all"
             >
-              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+              <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
               </svg>
             </button>
@@ -340,57 +341,57 @@
               id="delete-cover-btn"
               type="button"
               title="Remove custom cover art"
-              class="w-8 h-8 rounded-xl bg-white dark:bg-slate-800 hover:bg-rose-50 dark:hover:bg-rose-950/60 text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 shadow-md shadow-slate-200/50 dark:shadow-black/40 border border-slate-200 dark:border-slate-700 flex items-center justify-center active:scale-90 transition-all hidden"
+              class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-white dark:bg-slate-800 hover:bg-rose-50 dark:hover:bg-rose-950/60 text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 shadow-md shadow-slate-200/50 dark:shadow-black/40 border border-slate-200 dark:border-slate-700 flex items-center justify-center active:scale-90 transition-all hidden"
             >
-              <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+              <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
               </svg>
             </button>
           </div>
         </div>
 
-        <!-- Right / Bottom: Progress Donut -->
-        <div class="flex flex-col items-center justify-center flex-shrink-0 w-full sm:w-auto">
-          <div class="relative w-52 h-52 sm:w-56 sm:h-56 flex items-center justify-center">
+        <!-- Progress Donut (Resized compact for side-by-side display) -->
+        <div class="flex flex-col items-center justify-center flex-shrink-0">
+          <div class="relative w-36 h-36 sm:w-44 sm:h-44 flex items-center justify-center">
             <svg class="w-full h-full" viewBox="0 0 160 160">
               <defs>
                 <filter id="progress-glow" x="-20%" y="-20%" width="140%" height="140%">
-                  <feDropShadow dx="0" dy="0" stdDeviation="5" flood-opacity="0.38" id="glow-color" flood-color="#ef4444" />
+                  <feDropShadow dx="0" dy="0" stdDeviation="4" flood-opacity="0.38" id="glow-color" flood-color="#ef4444" />
                 </filter>
               </defs>
-              <circle cx="80" cy="80" r="66" stroke-width="12" class="stroke-slate-200/70 dark:stroke-slate-800/90 fill-none" />
+              <circle cx="80" cy="80" r="64" stroke-width="12" class="stroke-slate-200/70 dark:stroke-slate-800/90 fill-none" />
               <circle
                 id="progress-circle"
                 class="progress-circle-stroke fill-none"
                 cx="80"
                 cy="80"
-                r="66"
+                r="64"
                 stroke-width="12"
                 stroke-linecap="round"
                 stroke="#ef4444"
                 filter="url(#progress-glow)"
-                style="stroke-dasharray: 414.69; stroke-dashoffset: 414.69;"
+                style="stroke-dasharray: 402.12; stroke-dashoffset: 402.12;"
               />
             </svg>
-            <div class="absolute inset-0 flex flex-col items-center justify-center text-center select-none px-4 pointer-events-none">
-              <span id="pct-badge" class="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full mb-1 bg-red-100/90 dark:bg-red-950/70 text-red-600 dark:text-red-400 transition-colors duration-300">
+            <div class="absolute inset-0 flex flex-col items-center justify-center text-center select-none px-2 pointer-events-none">
+              <span id="pct-badge" class="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full mb-0.5 bg-red-100/90 dark:bg-red-950/70 text-red-600 dark:text-red-400 transition-colors duration-300">
                 Getting Started
               </span>
               <div class="relative flex items-center justify-center">
-                <span id="pct-number" class="metric-brico text-5xl sm:text-6xl text-slate-900 dark:text-slate-50 leading-none text-center">0</span>
-                <span class="metric-brico-pct absolute left-full top-1 sm:top-1.5 ml-1 text-lg sm:text-xl text-slate-400 dark:text-slate-500 leading-none select-none">%</span>
+                <span id="pct-number" class="metric-brico text-3xl sm:text-4xl text-slate-900 dark:text-slate-50 leading-none text-center">0</span>
+                <span class="metric-brico-pct absolute left-full top-0.5 sm:top-1 ml-0.5 text-sm sm:text-base text-slate-400 dark:text-slate-500 leading-none select-none">%</span>
               </div>
-              <span id="tasks-ratio" class="text-xs font-semibold text-slate-400 dark:text-slate-500 mt-2 tracking-tight">0 of 0 done</span>
+              <span id="tasks-ratio" class="text-[10px] sm:text-xs font-semibold text-slate-400 dark:text-slate-500 mt-1 tracking-tight">0 of 0 done</span>
             </div>
           </div>
-          <div id="motivation-text" class="mt-2 text-xs font-medium text-slate-500 dark:text-slate-400 text-center flex items-center justify-center gap-1.5 transition-all">
-            <span>Tap checklist items to advance</span>
+          <div id="motivation-text" class="mt-1.5 text-[11px] sm:text-xs font-medium text-slate-500 dark:text-slate-400 text-center flex items-center justify-center gap-1 transition-all">
+            <span>Tap items to advance</span>
           </div>
         </div>
       </section>
 
       <!-- Checklist Section -->
-      <section class="p-5 sm:p-7 flex flex-col gap-4">
+      <section class="p-4 sm:p-7 flex flex-col gap-3.5 sm:gap-4">
         <div class="flex items-center justify-between pb-1 border-b border-slate-100 dark:border-slate-800/50">
           <input
             id="project-desc-input"
@@ -408,12 +409,12 @@
               placeholder="Add a new checklist item..."
               maxlength="90"
               autocomplete="off"
-              class="w-full bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-2xl px-4 py-3 text-sm text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition shadow-sm font-medium"
+              class="w-full bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-2xl px-3.5 sm:px-4 py-2.5 sm:py-3 text-xs sm:text-sm text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition shadow-sm font-medium"
             />
           </div>
           <button
             type="submit"
-            class="bg-indigo-600 hover:bg-indigo-500 active:scale-95 text-white font-bold text-sm px-5 py-3 rounded-2xl transition flex items-center justify-center shadow-md shadow-indigo-500/20"
+            class="bg-indigo-600 hover:bg-indigo-500 active:scale-95 text-white font-bold text-xs sm:text-sm px-4 sm:px-5 py-2.5 sm:py-3 rounded-2xl transition flex items-center justify-center shadow-md shadow-indigo-500/20"
           >
             <svg class="w-4 h-4 mr-1 sm:mr-1.5 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
@@ -422,11 +423,11 @@
           </button>
         </form>
 
-        <div class="flex flex-wrap items-center justify-between gap-2 pt-1">
+        <div class="flex flex-wrap items-center justify-between gap-2 pt-0.5">
           <div class="flex items-center p-1 bg-slate-100/90 dark:bg-slate-900/90 rounded-xl border border-slate-200/60 dark:border-slate-800/80 text-xs font-bold">
-            <button data-filter="all" class="filter-btn px-3 py-1.5 rounded-lg bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 shadow-sm transition">All</button>
-            <button data-filter="pending" class="filter-btn px-3 py-1.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition">Active</button>
-            <button data-filter="completed" class="filter-btn px-3 py-1.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition">Completed</button>
+            <button data-filter="all" class="filter-btn px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 shadow-sm transition">All</button>
+            <button data-filter="pending" class="filter-btn px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition">Active</button>
+            <button data-filter="completed" class="filter-btn px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition">Completed</button>
           </div>
 
           <div class="flex items-center gap-2 text-xs font-semibold">
@@ -441,25 +442,25 @@
         </div>
 
         <div class="mt-1">
-          <ul id="task-list" class="flex flex-col gap-2.5 max-h-[380px] overflow-y-auto pr-1"></ul>
-          <div id="empty-state" class="hidden flex-col items-center justify-center py-10 px-4 text-center">
-            <div class="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-900 flex items-center justify-center text-slate-400 mb-2">
-              <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <ul id="task-list" class="flex flex-col gap-2 max-h-[380px] overflow-y-auto pr-1"></ul>
+          <div id="empty-state" class="hidden flex-col items-center justify-center py-8 px-4 text-center">
+            <div class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-900 flex items-center justify-center text-slate-400 mb-2">
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
               </svg>
             </div>
-            <p class="text-sm font-bold text-slate-700 dark:text-slate-200">No checklist items found</p>
-            <p class="text-xs text-slate-400 mt-0.5">Add a task above or switch your active filter</p>
+            <p class="text-xs sm:text-sm font-bold text-slate-700 dark:text-slate-200">No checklist items found</p>
+            <p class="text-[11px] text-slate-400 mt-0.5">Add a task above or switch your active filter</p>
           </div>
         </div>
       </section>
 
-      <footer class="px-6 py-3.5 bg-slate-100/50 dark:bg-slate-900/50 border-t border-slate-200/50 dark:border-slate-800/50 flex items-center justify-between text-xs text-slate-400 dark:text-slate-500 font-medium">
-        <span class="flex items-center gap-2">
+      <footer class="px-5 py-3 bg-slate-100/50 dark:bg-slate-900/50 border-t border-slate-200/50 dark:border-slate-800/50 flex items-center justify-between text-xs text-slate-400 dark:text-slate-500 font-medium">
+        <span class="flex items-center gap-1.5 text-[11px]">
           <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
           Cloud-synced
         </span>
-        <span id="active-project-tag" class="font-bold text-slate-600 dark:text-slate-400 truncate max-w-[160px]">
+        <span id="active-project-tag" class="font-bold text-slate-600 dark:text-slate-400 truncate max-w-[160px] text-[11px]">
           🎯 Daily Goals
         </span>
       </footer>
@@ -574,7 +575,7 @@
     // =========================================================================
     // PASTE YOUR REALTIME DATABASE URL HERE (Leave the trailing slash)
     // =========================================================================
-    const FIREBASE_DB_URL = "https://taskpulse-c02a5-default-rtdb.firebaseio.com/"; // <--- REPLACE THIS URL
+    const FIREBASE_DB_URL = "https://taskpulse-c02a5-default-rtdb.firebaseio.com/";
     // =========================================================================
 
     class SoundFX {
@@ -669,7 +670,7 @@
     let projectPendingDeleteId = null;
     let projectPendingRenameId = null;
 
-    const RADIUS = 66;
+    const RADIUS = 64;
     const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
 
     // View Elements
@@ -824,7 +825,6 @@
       }
     }
 
-    // SSE Realtime Stream: updates immediately when other devices modify tasks
     function startRealtimeStream() {
       try {
         const sse = new EventSource(getEndpoint());
@@ -841,19 +841,15 @@
           } catch (err) {}
         });
       } catch (err) {
-        // Fallback polling for browsers with strict iframe restrictions
         setInterval(pullFromCloud, 4000);
       }
     }
 
     function saveData() {
-      // 1. Instant local persistence
       try {
         localStorage.setItem('taskpulse_projects_v5', JSON.stringify(projects));
         localStorage.setItem('taskpulse_active_id_v5', activeProjectId);
       } catch (e) {}
-
-      // 2. Cloud push to Google Firebase
       pushToCloud();
     }
 
@@ -1515,25 +1511,25 @@
 
       if (total === 0) {
         pctBadge.textContent = 'Empty Project';
-        pctBadge.className = 'text-[10px] sm:text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full mb-1 bg-slate-200/90 dark:bg-slate-800 text-slate-600 dark:text-slate-300 transition-colors';
-        motivationText.innerHTML = `<span>Add tasks below to start tracking</span>`;
+        pctBadge.className = 'text-[9px] sm:text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full mb-0.5 bg-slate-200/90 dark:bg-slate-800 text-slate-600 dark:text-slate-300 transition-colors';
+        motivationText.innerHTML = `<span>Add tasks below to start</span>`;
       } else if (percent === 100) {
         pctBadge.textContent = 'Completed!';
-        pctBadge.className = 'text-[10px] sm:text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full mb-1 bg-emerald-100/90 dark:bg-emerald-950/70 text-emerald-600 dark:text-emerald-400 transition-colors shadow-sm';
-        motivationText.innerHTML = `<span class="text-emerald-600 dark:text-emerald-400 font-bold flex items-center gap-1"><svg class="w-3.5 h-3.5 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg> All project tasks finished!</span>`;
+        pctBadge.className = 'text-[9px] sm:text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full mb-0.5 bg-emerald-100/90 dark:bg-emerald-950/70 text-emerald-600 dark:text-emerald-400 transition-colors shadow-sm';
+        motivationText.innerHTML = `<span class="text-emerald-600 dark:text-emerald-400 font-bold flex items-center gap-1"><svg class="w-3 h-3 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg> All tasks finished!</span>`;
         if (previousPercent < 100 && previousPercent !== -1) triggerCelebration();
       } else if (percent >= 66) {
         pctBadge.textContent = 'Almost There';
-        pctBadge.className = 'text-[10px] sm:text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full mb-1 bg-lime-100/90 dark:bg-lime-950/70 text-lime-700 dark:text-lime-300 transition-colors';
-        motivationText.innerHTML = `<span>Final stretch! Push towards 100%.</span>`;
+        pctBadge.className = 'text-[9px] sm:text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full mb-0.5 bg-lime-100/90 dark:bg-lime-950/70 text-lime-700 dark:text-lime-300 transition-colors';
+        motivationText.innerHTML = `<span>Final stretch! Push to 100%.</span>`;
       } else if (percent >= 33) {
         pctBadge.textContent = 'Gaining Pace';
-        pctBadge.className = 'text-[10px] sm:text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full mb-1 bg-amber-100/90 dark:bg-amber-950/70 text-amber-700 dark:text-amber-300 transition-colors';
+        pctBadge.className = 'text-[9px] sm:text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full mb-0.5 bg-amber-100/90 dark:bg-amber-950/70 text-amber-700 dark:text-amber-300 transition-colors';
         motivationText.innerHTML = `<span>Good momentum, keep going.</span>`;
       } else {
         pctBadge.textContent = 'Getting Started';
-        pctBadge.className = 'text-[10px] sm:text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full mb-1 bg-red-100/90 dark:bg-red-950/70 text-red-600 dark:text-red-400 transition-colors';
-        motivationText.innerHTML = `<span>Tap checklist items to advance</span>`;
+        pctBadge.className = 'text-[9px] sm:text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full mb-0.5 bg-red-100/90 dark:bg-red-950/70 text-red-600 dark:text-red-400 transition-colors';
+        motivationText.innerHTML = `<span>Tap items to advance</span>`;
       }
       previousPercent = percent;
     }
@@ -1565,25 +1561,25 @@
 
         filteredTasks.forEach(task => {
           const li = document.createElement('li');
-          li.className = `group flex items-center justify-between p-3 sm:p-3.5 rounded-2xl border transition-all duration-200 select-none ${
+          li.className = `group flex items-center justify-between p-2.5 sm:p-3.5 rounded-2xl border transition-all duration-200 select-none ${
             task.done
               ? 'bg-emerald-50/40 dark:bg-emerald-950/15 border-emerald-200/60 dark:border-emerald-800/40 text-slate-400 dark:text-slate-500'
               : 'bg-white dark:bg-slate-900 border-slate-200/70 dark:border-slate-800 hover:border-indigo-200 dark:hover:border-slate-700 shadow-sm'
           }`;
 
           li.innerHTML = `
-            <div class="flex items-center gap-3 flex-1 min-w-0 cursor-pointer task-toggle" data-id="${task.id}">
-              <div class="w-6 h-6 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-200 border-2 ${
+            <div class="flex items-center gap-2.5 sm:gap-3 flex-1 min-w-0 cursor-pointer task-toggle" data-id="${task.id}">
+              <div class="w-5 h-5 sm:w-6 sm:h-6 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-200 border-2 ${
                 task.done
                   ? 'bg-emerald-500 border-emerald-500 text-white shadow-sm shadow-emerald-500/30'
                   : 'border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 group-hover:border-indigo-400'
               }">
-                <svg class="w-3.5 h-3.5 transition-transform duration-200 ${task.done ? 'opacity-100 scale-100' : 'opacity-0 scale-50'}" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5 transition-transform duration-200 ${task.done ? 'opacity-100 scale-100' : 'opacity-0 scale-50'}" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                 </svg>
               </div>
 
-              <span class="text-sm font-semibold leading-tight truncate transition-all duration-200 ${
+              <span class="text-xs sm:text-sm font-semibold leading-tight truncate transition-all duration-200 ${
                 task.done
                   ? 'line-through text-slate-400 dark:text-slate-500 font-normal'
                   : 'text-slate-700 dark:text-slate-200'
@@ -1593,11 +1589,11 @@
             </div>
 
             <button
-              class="delete-task-btn opacity-60 sm:opacity-0 group-hover:opacity-100 p-1.5 rounded-lg text-slate-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/50 transition-all flex-shrink-0 ml-2"
+              class="delete-task-btn opacity-60 sm:opacity-0 group-hover:opacity-100 p-1.5 rounded-lg text-slate-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/50 transition-all flex-shrink-0 ml-1 sm:ml-2"
               title="Delete item"
               data-id="${task.id}"
             >
-              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
               </svg>
             </button>
@@ -1674,8 +1670,8 @@
 
     filterBtns.forEach(btn => {
       btn.addEventListener('click', () => {
-        filterBtns.forEach(b => b.className = 'filter-btn px-3 py-1.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition font-bold');
-        btn.className = 'filter-btn px-3 py-1.5 rounded-lg bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 shadow-sm transition font-bold';
+        filterBtns.forEach(b => b.className = 'filter-btn px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition font-bold');
+        btn.className = 'filter-btn px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 shadow-sm transition font-bold';
         currentFilter = btn.getAttribute('data-filter');
         renderActiveProject();
       });
@@ -1721,7 +1717,6 @@
     });
 
     async function initApp() {
-      // 1. Theme
       const savedTheme = localStorage.getItem('taskpulse_theme');
       if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
         document.documentElement.classList.add('dark');
@@ -1729,7 +1724,6 @@
         document.documentElement.classList.remove('dark');
       }
 
-      // 2. Load cached local backup immediately for instant paint
       try {
         const stored = localStorage.getItem('taskpulse_projects_v5');
         if (stored) {
@@ -1747,13 +1741,13 @@
       renderProjectsSidebar();
       setView('home');
 
-      // 3. Connect to cloud database
       await pullFromCloud();
       startRealtimeStream();
     }
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('./sw.js').catch(() => {});
-}
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js').catch(() => {});
+    }
     window.addEventListener('DOMContentLoaded', initApp);
   </script>
 </body>
