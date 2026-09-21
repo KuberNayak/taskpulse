@@ -1,0 +1,1910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TaskPulse - Project Dashboard & Showcase</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Bricolage Grotesque -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&display=swap" rel="stylesheet">
+  <!-- Canvas Confetti CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Bricolage Grotesque"', 'system-ui', 'sans-serif'],
+            brico: ['"Bricolage Grotesque"', 'system-ui', 'sans-serif']
+          },
+          aspectRatio: {
+            '2/3': '2 / 3'
+          },
+          boxShadow: {
+            'glass': '0 12px 36px 0 rgba(0, 0, 0, 0.08)'
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    /* Universal Bricolage Grotesque */
+    *, *::before, *::after, body, button, input, select, textarea {
+      font-family: 'Bricolage Grotesque', system-ui, -apple-system, sans-serif !important;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .metric-brico {
+      font-family: 'Bricolage Grotesque', sans-serif !important;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.04em;
+    }
+
+    .metric-brico-pct {
+      font-family: 'Bricolage Grotesque', sans-serif !important;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+    }
+
+    .progress-circle-stroke {
+      transition: stroke-dashoffset 0.5s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.4s ease;
+      transform: rotate(-90deg);
+      transform-origin: 50% 50%;
+    }
+
+    .glass-panel {
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+    .dark .glass-panel {
+      background: rgba(15, 23, 42, 0.88);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+
+    ::-webkit-scrollbar {
+      width: 5px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(156, 163, 175, 0.3);
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(156, 163, 175, 0.5);
+    }
+  </style>
+</head>
+
+<body class="min-h-screen bg-slate-100 dark:bg-slate-950 text-slate-800 dark:text-slate-100 flex flex-col items-center justify-start transition-colors duration-300 overflow-x-hidden">
+
+  <!-- Ambient Dynamic Glows in Background -->
+  <div class="fixed inset-0 pointer-events-none overflow-hidden -z-10">
+    <div id="ambient-glow" class="absolute -top-32 left-1/2 -translate-x-1/2 w-[32rem] h-[32rem] rounded-full blur-3xl opacity-20 transition-all duration-700 bg-red-500"></div>
+    <div class="absolute bottom-6 -right-24 w-80 h-80 rounded-full blur-3xl opacity-15 bg-indigo-500"></div>
+    <div class="absolute top-1/2 -left-24 w-72 h-72 rounded-full blur-3xl opacity-15 bg-cyan-500"></div>
+  </div>
+
+  <!-- Sidebar Overlay (Backdrop) -->
+  <div id="sidebar-backdrop" class="fixed inset-0 bg-slate-950/40 dark:bg-black/60 backdrop-blur-sm z-40 hidden opacity-0 transition-opacity duration-300"></div>
+
+  <!-- Left Slide-out Project Drawer -->
+  <aside id="sidebar" class="fixed top-0 left-0 bottom-0 w-80 max-w-[85vw] bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-r border-slate-200/80 dark:border-slate-800/80 z-50 flex flex-col shadow-2xl transform -translate-x-full transition-transform duration-300 ease-in-out">
+    
+    <!-- Sidebar Header -->
+    <div class="p-5 flex items-center justify-between border-b border-slate-100 dark:border-slate-800/80">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-indigo-600 to-violet-600 flex items-center justify-center text-white shadow-md shadow-indigo-500/25 font-bold">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <div>
+          <h2 class="font-extrabold text-base tracking-tight leading-none">TaskPulse</h2>
+          <span class="text-xs text-slate-400 dark:text-slate-500 font-medium">Projects & 2:3 Covers</span>
+        </div>
+      </div>
+      
+      <!-- Close button -->
+      <button id="close-sidebar-btn" aria-label="Close sidebar" class="p-2 rounded-xl text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Add New Project Section in Drawer -->
+    <div class="p-4 border-b border-slate-100 dark:border-slate-800/60">
+      <button id="open-new-project-btn" class="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 active:scale-[0.98] text-white font-semibold text-sm shadow-md shadow-indigo-600/20 transition">
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+        </svg>
+        <span>New Project</span>
+      </button>
+
+      <!-- Inline Project Creation Form -->
+      <div id="new-project-form" class="hidden mt-3 p-3 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-200/80 dark:border-slate-700/60 transition-all">
+        <div class="flex items-center gap-2 mb-2.5">
+          <div class="relative">
+            <button id="selected-emoji-btn" type="button" class="w-9 h-9 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 flex items-center justify-center text-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+              🎯
+            </button>
+            <div id="emoji-picker" class="hidden absolute top-11 left-0 z-50 p-2 bg-white dark:bg-slate-800 rounded-xl shadow-xl border border-slate-200 dark:border-slate-700 grid grid-cols-4 gap-1.5 w-44">
+              <button type="button" class="emoji-opt p-1 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg text-lg">🎯</button>
+              <button type="button" class="emoji-opt p-1 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg text-lg">🚀</button>
+              <button type="button" class="emoji-opt p-1 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg text-lg">🎮</button>
+              <button type="button" class="emoji-opt p-1 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg text-lg">💪</button>
+              <button type="button" class="emoji-opt p-1 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg text-lg">⚡</button>
+              <button type="button" class="emoji-opt p-1 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg text-lg">📚</button>
+              <button type="button" class="emoji-opt p-1 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg text-lg">✨</button>
+              <button type="button" class="emoji-opt p-1 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg text-lg">🔥</button>
+            </div>
+          </div>
+          <input
+            id="new-project-input"
+            type="text"
+            maxlength="30"
+            placeholder="Project name..."
+            class="flex-1 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-1.5 text-xs text-slate-800 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/40"
+          />
+        </div>
+
+        <div class="flex justify-end items-center gap-2">
+          <button id="cancel-project-btn" type="button" class="px-3 py-1 rounded-lg text-xs font-semibold text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition">
+            Cancel
+          </button>
+          <button id="confirm-project-btn" type="button" class="px-3 py-1 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-bold shadow-sm transition">
+            Create
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Projects List in Sidebar -->
+    <div class="flex-1 overflow-y-auto p-3 space-y-1.5" id="projects-list-container"></div>
+
+    <!-- Sidebar Footer -->
+    <div class="p-4 border-t border-slate-100 dark:border-slate-800/70 flex items-center justify-between text-xs text-slate-400 font-medium">
+      <span id="project-counter-badge">3 Projects</span>
+      <button id="sidebar-reset-btn" class="hover:text-rose-500 transition underline underline-offset-2">Restore Defaults</button>
+    </div>
+  </aside>
+
+  <!-- Top App Navigation Bar -->
+  <header class="w-full max-w-5xl flex items-center justify-between py-3.5 px-4 sm:px-6">
+    <div class="flex items-center gap-2 sm:gap-3">
+      
+      <!-- Home Button -->
+      <button
+        id="nav-home-btn"
+        title="Go to Home Grid View"
+        class="flex items-center gap-2 px-3 sm:px-3.5 py-2 rounded-2xl border transition-all duration-200 font-bold text-xs shadow-sm bg-indigo-600 text-white border-indigo-600 shadow-indigo-600/20 active:scale-95"
+      >
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+        </svg>
+        <span>Home</span>
+      </button>
+
+      <!-- Projects Drawer Button -->
+      <button
+        id="open-sidebar-btn"
+        title="Open Project Drawer"
+        class="p-2 sm:px-3 sm:py-2 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 shadow-sm active:scale-95 transition flex items-center gap-2"
+      >
+        <svg class="w-4 h-4 sm:w-4.5 sm:h-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+        <span class="text-xs font-bold hidden sm:inline text-slate-600 dark:text-slate-300">Projects</span>
+      </button>
+
+      <!-- Project Indicator Breadcrumb -->
+      <div class="hidden sm:flex items-center gap-2 ml-1 cursor-pointer group" id="header-project-trigger" title="Switch project">
+        <span class="text-slate-300 dark:text-slate-700 text-sm">/</span>
+        <span id="header-project-emoji" class="text-lg">🎯</span>
+        <span id="header-project-name" class="font-bold text-sm tracking-tight text-slate-800 dark:text-slate-200 line-clamp-1 max-w-[180px]">Daily Goals</span>
+      </div>
+    </div>
+
+    <!-- Controls: Sound & Theme -->
+    <div class="flex items-center gap-2">
+      <button id="sound-btn" title="Toggle Sound Feedback" class="p-2.5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 shadow-sm transition">
+        <svg id="sound-icon-on" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+        </svg>
+        <svg id="sound-icon-off" class="w-4 h-4 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+          <path stroke-linecap="round" stroke-linejoin="round" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
+        </svg>
+      </button>
+
+      <button id="theme-btn" title="Toggle Theme" class="p-2.5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 shadow-sm transition">
+        <svg id="theme-moon" class="w-4 h-4 hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
+        <svg id="theme-sun" class="w-4 h-4 block dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- VIEW 1: HOME PAGE GRID VIEW -->
+  <main id="view-home" class="w-full max-w-5xl px-4 sm:px-6 py-4 flex flex-col items-center">
+    
+    <div class="w-full mb-6 sm:mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+      <div>
+        <div class="flex items-center gap-2 text-indigo-600 dark:text-indigo-400 font-bold text-xs uppercase tracking-widest mb-1">
+          <span>Project Gallery</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-slate-50">
+          Projects & Progress
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">
+          Select any capsule to open checklist. Double-click any title to rename.
+        </p>
+      </div>
+
+      <button
+        id="home-create-proj-btn"
+        class="flex items-center justify-center gap-2 px-4 py-2.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 active:scale-95 text-white font-bold text-xs sm:text-sm shadow-md shadow-indigo-600/20 transition self-start sm:self-auto"
+      >
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+        </svg>
+        <span>New Project</span>
+      </button>
+    </div>
+
+    <!-- Responsive Grid for 2:3 Project Capsules -->
+    <div id="home-grid" class="w-full grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4 sm:gap-6"></div>
+  </main>
+
+  <!-- VIEW 2: PROJECT DETAIL VIEW -->
+  <main id="view-detail" class="w-full max-w-2xl px-3 sm:px-6 pb-12 flex flex-col items-center hidden">
+    
+    <div class="w-full flex items-center justify-between mb-3 px-1">
+      <button
+        id="detail-back-home-btn"
+        class="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition group"
+      >
+        <svg class="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+        </svg>
+        <span>Back to Project Library</span>
+      </button>
+
+      <span id="detail-project-task-pill" class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-slate-200/80 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+        0 tasks
+      </span>
+    </div>
+
+    <!-- Main Detail Glass Panel -->
+    <div class="w-full glass-panel border border-slate-200/80 dark:border-slate-800/80 rounded-[2rem] shadow-glass shadow-slate-300/20 dark:shadow-black/40 overflow-hidden flex flex-col">
+      
+      <!-- Symmetrical Hero Showcase -->
+      <section class="p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-around gap-6 sm:gap-8 border-b border-slate-100 dark:border-slate-800/60 relative bg-gradient-to-b from-white/50 to-slate-50/20 dark:from-slate-900/50 dark:to-slate-900/10">
+        
+        <!-- Left: 2:3 Cover Art Frame with Exterior Buttons -->
+        <div class="flex items-end gap-2.5 flex-shrink-0">
+          
+          <div
+            id="detail-cover-box"
+            class="relative w-[148px] sm:w-[162px] aspect-[2/3] rounded-2xl overflow-hidden border-2 border-slate-200/90 dark:border-slate-700/80 bg-white dark:bg-white shadow-lg shadow-slate-300/30 dark:shadow-black/60 transition-all duration-300 hover:shadow-xl flex flex-col items-center justify-center flex-shrink-0"
+          >
+            <img
+              id="cover-art-img"
+              src=""
+              alt="Project Cover"
+              class="w-full h-full object-cover hidden transition-all duration-300"
+            />
+
+            <!-- Default White Background Cover -->
+            <div
+              id="cover-art-default"
+              class="w-full h-full p-4 flex flex-col items-center justify-between text-center bg-white text-slate-900 select-none transition-all"
+            >
+              <div class="w-full flex items-center justify-between opacity-50">
+                <span class="text-[9px] font-extrabold uppercase tracking-wider text-slate-500">Capsule</span>
+                <span id="default-cover-emoji" class="text-sm">🎯</span>
+              </div>
+
+              <div class="my-auto px-1 flex flex-col items-center">
+                <h3 id="default-cover-title" class="font-extrabold text-base sm:text-lg leading-tight tracking-tight text-slate-900 line-clamp-4 break-words">
+                  Project Title
+                </h3>
+              </div>
+
+              <div class="w-full flex justify-center">
+                <span class="text-[8px] font-bold uppercase tracking-widest text-slate-400 bg-slate-100 px-2 py-0.5 rounded-md">
+                  TaskPulse 2:3
+                </span>
+              </div>
+            </div>
+
+            <div id="cover-art-ratio-badge" class="absolute bottom-2 left-2 z-10 pointer-events-none hidden">
+              <span class="text-[9px] font-extrabold uppercase tracking-wider px-1.5 py-0.5 rounded-md bg-black/60 backdrop-blur-sm text-white/90">
+                2:3
+              </span>
+            </div>
+          </div>
+
+          <!-- Exterior Action Buttons -->
+          <div class="flex flex-col items-center gap-1.5 pb-1">
+            <button
+              id="add-cover-btn"
+              type="button"
+              title="Add or change cover art"
+              class="w-8 h-8 rounded-xl bg-white dark:bg-slate-800 hover:bg-indigo-50 dark:hover:bg-indigo-950/60 text-slate-700 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 shadow-md shadow-slate-200/50 dark:shadow-black/40 border border-slate-200 dark:border-slate-700 flex items-center justify-center active:scale-90 transition-all"
+            >
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+              </svg>
+            </button>
+
+            <button
+              id="delete-cover-btn"
+              type="button"
+              title="Remove custom cover art"
+              class="w-8 h-8 rounded-xl bg-white dark:bg-slate-800 hover:bg-rose-50 dark:hover:bg-rose-950/60 text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 shadow-md shadow-slate-200/50 dark:shadow-black/40 border border-slate-200 dark:border-slate-700 flex items-center justify-center active:scale-90 transition-all hidden"
+            >
+              <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Right: Progress Donut -->
+        <div class="flex flex-col items-center justify-center flex-shrink-0">
+          <div class="relative w-52 h-52 sm:w-56 sm:h-56 flex items-center justify-center">
+            <svg class="w-full h-full" viewBox="0 0 160 160">
+              <defs>
+                <filter id="progress-glow" x="-20%" y="-20%" width="140%" height="140%">
+                  <feDropShadow dx="0" dy="0" stdDeviation="5" flood-opacity="0.38" id="glow-color" flood-color="#ef4444" />
+                </filter>
+              </defs>
+
+              <circle
+                cx="80"
+                cy="80"
+                r="66"
+                stroke-width="12"
+                class="stroke-slate-200/70 dark:stroke-slate-800/90 fill-none"
+              />
+
+              <circle
+                id="progress-circle"
+                class="progress-circle-stroke fill-none"
+                cx="80"
+                cy="80"
+                r="66"
+                stroke-width="12"
+                stroke-linecap="round"
+                stroke="#ef4444"
+                filter="url(#progress-glow)"
+                style="stroke-dasharray: 414.69; stroke-dashoffset: 414.69;"
+              />
+            </svg>
+
+            <!-- Inside Donut Content -->
+            <div class="absolute inset-0 flex flex-col items-center justify-center text-center select-none px-4 pointer-events-none">
+              <span id="pct-badge" class="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full mb-1 bg-red-100/90 dark:bg-red-950/70 text-red-600 dark:text-red-400 transition-colors duration-300">
+                Getting Started
+              </span>
+              <div class="relative flex items-center justify-center">
+                <span id="pct-number" class="metric-brico text-5xl sm:text-6xl text-slate-900 dark:text-slate-50 leading-none text-center">0</span>
+                <span class="metric-brico-pct absolute left-full top-1 sm:top-1.5 ml-1 text-lg sm:text-xl text-slate-400 dark:text-slate-500 leading-none select-none">
+                  %
+                </span>
+              </div>
+              <span id="tasks-ratio" class="text-xs font-semibold text-slate-400 dark:text-slate-500 mt-2 tracking-tight">
+                0 of 0 done
+              </span>
+            </div>
+          </div>
+
+          <div id="motivation-text" class="mt-2 text-xs font-medium text-slate-500 dark:text-slate-400 text-center flex items-center justify-center gap-1.5 transition-all">
+            <span>Tap checklist items to advance</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Checklist Section -->
+      <section class="p-5 sm:p-7 flex flex-col gap-4">
+        
+        <div class="flex items-center justify-between pb-1 border-b border-slate-100 dark:border-slate-800/50">
+          <input
+            id="project-desc-input"
+            type="text"
+            placeholder="Add an optional goal or note for this project..."
+            class="w-full bg-transparent text-xs sm:text-sm text-slate-500 dark:text-slate-400 placeholder-slate-400/80 focus:outline-none focus:text-slate-800 dark:focus:text-slate-200 transition font-normal"
+          />
+        </div>
+
+        <form id="add-task-form" class="flex gap-2">
+          <div class="relative flex-1">
+            <input
+              id="task-input"
+              type="text"
+              placeholder="Add a new checklist item..."
+              maxlength="90"
+              autocomplete="off"
+              class="w-full bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-2xl px-4 py-3 text-sm text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition shadow-sm font-medium"
+            />
+          </div>
+          <button
+            type="submit"
+            class="bg-indigo-600 hover:bg-indigo-500 active:scale-95 text-white font-bold text-sm px-5 py-3 rounded-2xl transition flex items-center justify-center shadow-md shadow-indigo-500/20"
+          >
+            <svg class="w-4 h-4 mr-1 sm:mr-1.5 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+            </svg>
+            <span>Add</span>
+          </button>
+        </form>
+
+        <div class="flex flex-wrap items-center justify-between gap-2 pt-1">
+          <div class="flex items-center p-1 bg-slate-100/90 dark:bg-slate-900/90 rounded-xl border border-slate-200/60 dark:border-slate-800/80 text-xs font-bold">
+            <button data-filter="all" class="filter-btn px-3 py-1.5 rounded-lg bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 shadow-sm transition">All</button>
+            <button data-filter="pending" class="filter-btn px-3 py-1.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition">Active</button>
+            <button data-filter="completed" class="filter-btn px-3 py-1.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition">Completed</button>
+          </div>
+
+          <div class="flex items-center gap-2 text-xs font-semibold">
+            <button id="check-all-btn" class="text-slate-500 hover:text-indigo-600 dark:text-slate-400 dark:hover:text-indigo-400 px-2 py-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+              Check All
+            </button>
+            <span class="text-slate-300 dark:text-slate-700">|</span>
+            <button id="clear-btn" class="text-slate-500 hover:text-rose-600 dark:text-slate-400 dark:hover:text-rose-400 px-2 py-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+              Clear Done
+            </button>
+          </div>
+        </div>
+
+        <div class="mt-1">
+          <ul id="task-list" class="flex flex-col gap-2.5 max-h-[380px] overflow-y-auto pr-1"></ul>
+
+          <div id="empty-state" class="hidden flex-col items-center justify-center py-10 px-4 text-center">
+            <div class="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-900 flex items-center justify-center text-slate-400 mb-2">
+              <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+              </svg>
+            </div>
+            <p class="text-sm font-bold text-slate-700 dark:text-slate-200">No checklist items found</p>
+            <p class="text-xs text-slate-400 mt-0.5">Add a task above or switch your active filter</p>
+          </div>
+        </div>
+      </section>
+
+      <footer class="px-6 py-3.5 bg-slate-100/50 dark:bg-slate-900/50 border-t border-slate-200/50 dark:border-slate-800/50 flex items-center justify-between text-xs text-slate-400 dark:text-slate-500 font-medium">
+        <span class="flex items-center gap-2">
+          <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          Auto-saved locally
+        </span>
+        <span id="active-project-tag" class="font-bold text-slate-600 dark:text-slate-400 truncate max-w-[160px]">
+          🎯 Daily Goals
+        </span>
+      </footer>
+    </div>
+  </main>
+
+  <!-- Cover Art Selection Modal -->
+  <div id="cover-modal" class="fixed inset-0 z-[60] flex items-center justify-center bg-slate-950/50 dark:bg-black/70 backdrop-blur-sm hidden opacity-0 transition-opacity duration-200 p-4">
+    <div class="w-full max-w-md bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-2xl transform scale-95 transition-transform duration-200" id="cover-modal-box">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-sm font-bold text-slate-800 dark:text-slate-100">Project Cover Art</h3>
+            <span class="text-[11px] text-slate-400">2:3 vertical poster</span>
+          </div>
+        </div>
+        <button id="close-cover-modal-btn" class="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="mt-4 space-y-4">
+        <div>
+          <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">Upload local image file</label>
+          <div class="flex items-center gap-2">
+            <label class="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl border border-dashed border-slate-300 dark:border-slate-700 hover:border-indigo-500 dark:hover:border-indigo-400 bg-slate-50 dark:bg-slate-800/50 cursor-pointer text-xs font-semibold text-slate-600 dark:text-slate-300 transition">
+              <svg class="w-4 h-4 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+              </svg>
+              <span>Choose Image (PNG, JPG, WebP)</span>
+              <input id="cover-file-input" type="file" accept="image/*" class="hidden" />
+            </label>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <div class="flex-1 h-px bg-slate-200 dark:bg-slate-800"></div>
+          <span class="text-[10px] font-bold uppercase text-slate-400">or paste link</span>
+          <div class="flex-1 h-px bg-slate-200 dark:bg-slate-800"></div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">Image Web URL</label>
+          <input
+            id="cover-url-input"
+            type="url"
+            placeholder="https://example.com/poster.jpg"
+            class="w-full bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2 text-xs text-slate-800 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/40"
+          />
+        </div>
+
+        <div>
+          <label class="block text-[11px] font-bold text-slate-500 dark:text-slate-400 mb-1.5">Or choose sample artwork:</label>
+          <div class="grid grid-cols-4 gap-2">
+            <button type="button" class="sample-cover-btn group relative aspect-[2/3] rounded-lg overflow-hidden border border-slate-200 dark:border-slate-700 hover:border-indigo-500 transition" data-url="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=400&q=80">
+              <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=150&q=60" class="w-full h-full object-cover" alt="Esports Gaming" />
+              <span class="absolute inset-x-0 bottom-0 bg-black/70 text-[9px] text-white text-center py-0.5 font-bold">Cyber</span>
+            </button>
+            <button type="button" class="sample-cover-btn group relative aspect-[2/3] rounded-lg overflow-hidden border border-slate-200 dark:border-slate-700 hover:border-indigo-500 transition" data-url="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=400&q=80">
+              <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=150&q=60" class="w-full h-full object-cover" alt="Space" />
+              <span class="absolute inset-x-0 bottom-0 bg-black/70 text-[9px] text-white text-center py-0.5 font-bold">Space</span>
+            </button>
+            <button type="button" class="sample-cover-btn group relative aspect-[2/3] rounded-lg overflow-hidden border border-slate-200 dark:border-slate-700 hover:border-indigo-500 transition" data-url="https://images.unsplash.com/photo-1579373903781-fd5c0c30c4cd?auto=format&fit=crop&w=400&q=80">
+              <img src="https://images.unsplash.com/photo-1579373903781-fd5c0c30c4cd?auto=format&fit=crop&w=150&q=60" class="w-full h-full object-cover" alt="Neon" />
+              <span class="absolute inset-x-0 bottom-0 bg-black/70 text-[9px] text-white text-center py-0.5 font-bold">Neon</span>
+            </button>
+            <button type="button" class="sample-cover-btn group relative aspect-[2/3] rounded-lg overflow-hidden border border-slate-200 dark:border-slate-700 hover:border-indigo-500 transition" data-url="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=400&q=80">
+              <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=150&q=60" class="w-full h-full object-cover" alt="Pixel Arcade" />
+              <span class="absolute inset-x-0 bottom-0 bg-black/70 text-[9px] text-white text-center py-0.5 font-bold">Arcade</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-5 flex items-center justify-end gap-2">
+        <button id="cancel-cover-modal-btn" type="button" class="px-3.5 py-1.5 rounded-xl text-xs font-bold text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+          Cancel
+        </button>
+        <button id="save-cover-url-btn" type="button" class="px-4 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-bold shadow-md shadow-indigo-600/20 transition">
+          Apply Cover
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rename Project Modal -->
+  <div id="rename-modal" class="fixed inset-0 z-[60] flex items-center justify-center bg-slate-950/50 dark:bg-black/70 backdrop-blur-sm hidden opacity-0 transition-opacity duration-200 p-4">
+    <div class="w-full max-w-sm bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-2xl transform scale-95 transition-transform duration-200" id="rename-modal-box">
+      <div class="flex items-center gap-2.5 mb-3">
+        <div class="w-9 h-9 rounded-xl bg-indigo-50 dark:bg-indigo-950/70 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+          </svg>
+        </div>
+        <h3 class="text-sm sm:text-base font-bold text-slate-800 dark:text-slate-100">Rename Project</h3>
+      </div>
+      
+      <div>
+        <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5">Project Title</label>
+        <input
+          id="rename-modal-input"
+          type="text"
+          maxlength="35"
+          placeholder="Enter new project name..."
+          class="w-full bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-800 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/40"
+        />
+      </div>
+
+      <div class="mt-4 flex items-center justify-end gap-2">
+        <button id="cancel-rename-btn" type="button" class="px-3.5 py-1.5 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+          Cancel
+        </button>
+        <button id="confirm-rename-btn" type="button" class="px-3.5 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 active:scale-95 text-white text-xs font-bold shadow-md shadow-indigo-600/20 transition">
+          Save
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Project Confirmation Modal -->
+  <div id="delete-modal" class="fixed inset-0 z-[60] flex items-center justify-center bg-slate-950/50 dark:bg-black/70 backdrop-blur-sm hidden opacity-0 transition-opacity duration-200 p-4">
+    <div class="w-full max-w-sm bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-2xl transform scale-95 transition-transform duration-200" id="delete-modal-box">
+      <div class="w-10 h-10 rounded-xl bg-rose-100 dark:bg-rose-950/70 text-rose-600 dark:text-rose-400 flex items-center justify-center mb-3">
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+        </svg>
+      </div>
+      <h3 class="text-sm sm:text-base font-bold text-slate-800 dark:text-slate-100">Delete Project?</h3>
+      <p id="delete-modal-msg" class="text-xs text-slate-500 dark:text-slate-400 mt-1.5 leading-relaxed">
+        Are you sure you want to delete this project? All associated checklist items and artwork will be removed.
+      </p>
+      <div class="mt-4 flex items-center justify-end gap-2.5">
+        <button id="cancel-delete-btn" type="button" class="px-3.5 py-1.5 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+          Cancel
+        </button>
+        <button id="confirm-delete-btn" type="button" class="px-3.5 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-500 active:scale-95 text-white text-xs font-bold shadow-md shadow-rose-600/20 transition">
+          Yes, Delete
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notification Toast Message Box -->
+  <div id="toast" class="fixed bottom-6 z-50 pointer-events-none transform translate-y-16 opacity-0 transition-all duration-300 px-4 py-2.5 rounded-2xl bg-slate-900/90 dark:bg-slate-100/90 text-white dark:text-slate-900 text-xs font-bold shadow-xl flex items-center gap-2 backdrop-blur-md">
+    <span id="toast-text">Notification message</span>
+  </div>
+
+  <script>
+    class SoundFX {
+      constructor() {
+        this.ctx = null;
+        this.enabled = true;
+      }
+      init() {
+        if (!this.ctx) {
+          const AudioCtx = window.AudioContext || window.webkitAudioContext;
+          if (AudioCtx) this.ctx = new AudioCtx();
+        }
+      }
+      playCheck(isCompleting) {
+        if (!this.enabled) return;
+        try {
+          this.init();
+          if (!this.ctx) return;
+          if (this.ctx.state === 'suspended') this.ctx.resume();
+
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+
+          const now = this.ctx.currentTime;
+          if (isCompleting) {
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(540, now);
+            osc.frequency.exponentialRampToValueAtTime(820, now + 0.08);
+            gain.gain.setValueAtTime(0.12, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.14);
+            osc.start(now);
+            osc.stop(now + 0.15);
+          } else {
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(320, now);
+            osc.frequency.exponentialRampToValueAtTime(220, now + 0.06);
+            gain.gain.setValueAtTime(0.08, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.07);
+            osc.start(now);
+            osc.stop(now + 0.08);
+          }
+        } catch (e) {}
+      }
+      playCelebration() {
+        if (!this.enabled) return;
+        try {
+          this.init();
+          if (!this.ctx) return;
+          if (this.ctx.state === 'suspended') this.ctx.resume();
+
+          const notes = [523.25, 659.25, 783.99, 1046.50];
+          notes.forEach((freq, idx) => {
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
+            osc.connect(gain);
+            gain.connect(this.ctx.destination);
+
+            const start = this.ctx.currentTime + (idx * 0.07);
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(freq, start);
+            gain.gain.setValueAtTime(0.14, start);
+            gain.gain.exponentialRampToValueAtTime(0.001, start + 0.25);
+            osc.start(start);
+            osc.stop(start + 0.26);
+          });
+        } catch (e) {}
+      }
+    }
+
+    const sound = new SoundFX();
+
+    const SEED_PROJECTS = [
+      {
+        id: 'proj_daily',
+        name: 'Daily Goals',
+        emoji: '🎯',
+        coverArt: '',
+        description: 'Key actions to dominate the day',
+        tasks: [
+          { id: 'd1', title: 'Morning meditation & sunlight', done: true },
+          { id: 'd2', title: 'Review today priority checklist', done: true },
+          { id: 'd3', title: '30-minute intense workout', done: false },
+          { id: 'd4', title: 'Read 15 pages of non-fiction', done: false }
+        ]
+      },
+      {
+        id: 'proj_launch',
+        name: 'Launch Indie Product',
+        emoji: '🎮',
+        coverArt: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=400&q=80',
+        description: 'Complete build, trailer, and store page tasks',
+        tasks: [
+          { id: 'l1', title: 'Prepare 2:3 capsule poster art', done: true },
+          { id: 'l2', title: 'Cut gameplay launch trailer video', done: true },
+          { id: 'l3', title: 'Run beta test with early users', done: true },
+          { id: 'l4', title: 'Publish release build to main branch', done: false }
+        ]
+      },
+      {
+        id: 'proj_fitness',
+        name: 'Fitness & Health Sprint',
+        emoji: '💪',
+        coverArt: '',
+        description: 'Consistency & body conditioning',
+        tasks: [
+          { id: 'f1', title: 'Hydrate 2.5L water throughout day', done: true },
+          { id: 'f2', title: 'Hit 10,000 steps tracker goal', done: false },
+          { id: 'f3', title: 'Prepare high-protein dinner meal', done: false }
+        ]
+      },
+      {
+        id: 'proj_cyber',
+        name: 'Cyber Portfolio',
+        emoji: '⚡',
+        coverArt: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=400&q=80',
+        description: 'Design showcase and live experiments',
+        tasks: [
+          { id: 'c1', title: 'Compile interactive WebGL demos', done: true },
+          { id: 'c2', title: 'Optimise mobile responsive breakpoints', done: true },
+          { id: 'c3', title: 'Connect analytics pipeline', done: true }
+        ]
+      }
+    ];
+
+    let projects = [];
+    let activeProjectId = '';
+    let activeView = 'home';
+    let currentFilter = 'all';
+    let previousPercent = -1;
+    let selectedNewEmoji = '🎯';
+    let projectPendingDeleteId = null;
+    let projectPendingRenameId = null;
+
+    const RADIUS = 66;
+    const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
+
+    // View elements
+    const viewHome = document.getElementById('view-home');
+    const viewDetail = document.getElementById('view-detail');
+    const navHomeBtn = document.getElementById('nav-home-btn');
+    const homeGrid = document.getElementById('home-grid');
+    const homeCreateProjBtn = document.getElementById('home-create-proj-btn');
+    const detailBackHomeBtn = document.getElementById('detail-back-home-btn');
+    const detailProjectTaskPill = document.getElementById('detail-project-task-pill');
+
+    // Drawer bindings
+    const sidebar = document.getElementById('sidebar');
+    const sidebarBackdrop = document.getElementById('sidebar-backdrop');
+    const openSidebarBtn = document.getElementById('open-sidebar-btn');
+    const closeSidebarBtn = document.getElementById('close-sidebar-btn');
+    const headerProjectTrigger = document.getElementById('header-project-trigger');
+    const headerProjectName = document.getElementById('header-project-name');
+    const headerProjectEmoji = document.getElementById('header-project-emoji');
+    const activeProjectTag = document.getElementById('active-project-tag');
+    const projectDescInput = document.getElementById('project-desc-input');
+    const projectsListContainer = document.getElementById('projects-list-container');
+    const projectCounterBadge = document.getElementById('project-counter-badge');
+    const sidebarResetBtn = document.getElementById('sidebar-reset-btn');
+
+    // Project creation elements
+    const openNewProjectBtn = document.getElementById('open-new-project-btn');
+    const newProjectForm = document.getElementById('new-project-form');
+    const newProjectInput = document.getElementById('new-project-input');
+    const cancelProjectBtn = document.getElementById('cancel-project-btn');
+    const confirmProjectBtn = document.getElementById('confirm-project-btn');
+    const selectedEmojiBtn = document.getElementById('selected-emoji-btn');
+    const emojiPicker = document.getElementById('emoji-picker');
+
+    // Cover Art elements
+    const coverArtImg = document.getElementById('cover-art-img');
+    const coverArtDefault = document.getElementById('cover-art-default');
+    const defaultCoverTitle = document.getElementById('default-cover-title');
+    const defaultCoverEmoji = document.getElementById('default-cover-emoji');
+    const coverArtRatioBadge = document.getElementById('cover-art-ratio-badge');
+    const addCoverBtn = document.getElementById('add-cover-btn');
+    const deleteCoverBtn = document.getElementById('delete-cover-btn');
+
+    // Modals
+    const coverModal = document.getElementById('cover-modal');
+    const coverModalBox = document.getElementById('cover-modal-box');
+    const closeCoverModalBtn = document.getElementById('close-cover-modal-btn');
+    const cancelCoverModalBtn = document.getElementById('cancel-cover-modal-btn');
+    const coverFileInput = document.getElementById('cover-file-input');
+    const coverUrlInput = document.getElementById('cover-url-input');
+    const saveCoverUrlBtn = document.getElementById('save-cover-url-btn');
+
+    const renameModal = document.getElementById('rename-modal');
+    const renameModalBox = document.getElementById('rename-modal-box');
+    const renameModalInput = document.getElementById('rename-modal-input');
+    const cancelRenameBtn = document.getElementById('cancel-rename-btn');
+    const confirmRenameBtn = document.getElementById('confirm-rename-btn');
+
+    const deleteModal = document.getElementById('delete-modal');
+    const deleteModalBox = document.getElementById('delete-modal-box');
+    const deleteModalMsg = document.getElementById('delete-modal-msg');
+    const cancelDeleteBtn = document.getElementById('cancel-delete-btn');
+    const confirmDeleteBtn = document.getElementById('confirm-delete-btn');
+
+    // Progress Donut elements
+    const progressCircle = document.getElementById('progress-circle');
+    const glowColor = document.getElementById('glow-color');
+    const ambientGlow = document.getElementById('ambient-glow');
+    const pctNumber = document.getElementById('pct-number');
+    const pctBadge = document.getElementById('pct-badge');
+    const tasksRatio = document.getElementById('tasks-ratio');
+    const motivationText = document.getElementById('motivation-text');
+
+    // Checklist elements
+    const taskList = document.getElementById('task-list');
+    const taskInput = document.getElementById('task-input');
+    const addTaskForm = document.getElementById('add-task-form');
+    const emptyState = document.getElementById('empty-state');
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const checkAllBtn = document.getElementById('check-all-btn');
+    const clearBtn = document.getElementById('clear-btn');
+
+    // Control preferences
+    const themeBtn = document.getElementById('theme-btn');
+    const soundBtn = document.getElementById('sound-btn');
+    const soundIconOn = document.getElementById('sound-icon-on');
+    const soundIconOff = document.getElementById('sound-icon-off');
+    const toast = document.getElementById('toast');
+    const toastText = document.getElementById('toast-text');
+
+    progressCircle.style.strokeDasharray = `${CIRCUMFERENCE} ${CIRCUMFERENCE}`;
+    progressCircle.style.strokeDashoffset = CIRCUMFERENCE;
+
+    function showToast(msg) {
+      toastText.textContent = msg;
+      toast.classList.remove('opacity-0', 'translate-y-16');
+      toast.classList.add('opacity-100', 'translate-y-0');
+      clearTimeout(toast._timer);
+      toast._timer = setTimeout(() => {
+        toast.classList.add('opacity-0', 'translate-y-16');
+        toast.classList.remove('opacity-100', 'translate-y-0');
+      }, 2200);
+    }
+
+    function calculateProgress(project) {
+      const total = project.tasks ? project.tasks.length : 0;
+      const done = project.tasks ? project.tasks.filter(t => t.done).length : 0;
+      const progress = total === 0 ? 0 : done / total;
+      const percent = Math.round(progress * 100);
+      const hue = Math.round(progress * 142);
+      return { total, done, progress, percent, hue };
+    }
+
+    function setView(view) {
+      activeView = view;
+      if (view === 'home') {
+        viewHome.classList.remove('hidden');
+        viewDetail.classList.add('hidden');
+
+        navHomeBtn.className = "flex items-center gap-2 px-3 sm:px-3.5 py-2 rounded-2xl border transition-all duration-200 font-bold text-xs shadow-sm bg-indigo-600 text-white border-indigo-600 shadow-indigo-600/20 active:scale-95";
+        headerProjectTrigger.classList.add('hidden');
+
+        renderHomeGrid();
+      } else {
+        viewHome.classList.add('hidden');
+        viewDetail.classList.remove('hidden');
+
+        navHomeBtn.className = "flex items-center gap-2 px-3 sm:px-3.5 py-2 rounded-2xl border transition-all duration-200 font-bold text-xs shadow-sm border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 active:scale-95";
+        headerProjectTrigger.classList.remove('hidden');
+
+        renderActiveProject();
+      }
+      saveData();
+    }
+
+    navHomeBtn.addEventListener('click', () => setView('home'));
+    detailBackHomeBtn.addEventListener('click', () => setView('home'));
+
+    function selectProjectAndOpenDetail(projectId) {
+      activeProjectId = projectId;
+      previousPercent = -1;
+      saveData();
+      renderProjectsSidebar();
+      setView('detail');
+    }
+
+    // --- INLINE EDITING ACTIVATOR ---
+    function triggerInlineEdit(titleElement, projectId) {
+      const project = projects.find(p => p.id === projectId);
+      if (!project || titleElement.querySelector('input')) return;
+
+      const currentName = project.name;
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.maxLength = 35;
+      input.value = currentName;
+      input.className = "w-full bg-white dark:bg-slate-900 border-2 border-indigo-500 rounded-lg px-2 py-1 text-xs sm:text-sm font-bold text-slate-900 dark:text-slate-100 shadow-xl focus:outline-none";
+
+      input.addEventListener('click', (ev) => ev.stopPropagation());
+      input.addEventListener('mousedown', (ev) => ev.stopPropagation());
+      input.addEventListener('dblclick', (ev) => ev.stopPropagation());
+
+      titleElement.innerHTML = '';
+      titleElement.appendChild(input);
+      input.focus();
+      input.select();
+
+      let committed = false;
+      const finishEdit = (save) => {
+        if (committed) return;
+        committed = true;
+
+        if (save) {
+          const updatedName = input.value.trim();
+          if (updatedName && updatedName !== currentName) {
+            project.name = updatedName;
+            saveData();
+            renderProjectsSidebar();
+            if (activeProjectId === project.id) {
+              updateCoverDisplay();
+              headerProjectName.textContent = updatedName;
+            }
+            showToast(`Renamed to "${updatedName}"`);
+          }
+        }
+        renderHomeGrid();
+      };
+
+      input.addEventListener('keydown', (ev) => {
+        if (ev.key === 'Enter') {
+          ev.preventDefault();
+          finishEdit(true);
+        } else if (ev.key === 'Escape') {
+          ev.preventDefault();
+          finishEdit(false);
+        }
+      });
+
+      input.addEventListener('blur', () => finishEdit(true));
+    }
+
+    // --- VIEW 1: RENDER HOME GRID ---
+    function renderHomeGrid() {
+      homeGrid.innerHTML = '';
+
+      projects.forEach(project => {
+        const { total, done, percent, hue } = calculateProgress(project);
+        const strokeColor = `hsl(${hue}, 86%, 45%)`;
+
+        const card = document.createElement('div');
+        card.className = "group flex flex-col select-none transition-all duration-300 transform hover:-translate-y-1";
+        card.setAttribute('data-id', project.id);
+
+        card.innerHTML = `
+          <!-- 2:3 Capsule Poster -->
+          <div class="card-capsule-box cursor-pointer relative w-full aspect-[2/3] rounded-2xl overflow-hidden border-2 border-slate-200/90 dark:border-slate-800 shadow-md group-hover:shadow-xl group-hover:border-indigo-500/80 dark:group-hover:border-indigo-400 transition-all bg-white flex flex-col">
+            
+            ${project.coverArt ? `
+              <img
+                src="${project.coverArt}"
+                alt="${escapeHtml(project.name)}"
+                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-40 group-hover:opacity-20 transition-opacity"></div>
+              <div class="absolute bottom-2.5 left-2.5 z-10 pointer-events-none">
+                <span class="text-[9px] font-extrabold uppercase tracking-wider px-1.5 py-0.5 rounded-md bg-black/60 backdrop-blur-sm text-white/90">
+                  ${project.emoji} 2:3
+                </span>
+              </div>
+            ` : `
+              <!-- Default White Background Cover with Title Printed in Center -->
+              <div class="w-full h-full p-4 flex flex-col items-center justify-between text-center bg-white text-slate-900 transition-colors">
+                <div class="w-full flex items-center justify-between opacity-50">
+                  <span class="text-[9px] font-extrabold uppercase tracking-wider text-slate-400">CAPSULE</span>
+                  <span class="text-sm">${project.emoji}</span>
+                </div>
+                
+                <div class="my-auto px-1 flex flex-col items-center w-full">
+                  <h4 
+                    class="editable-project-title font-extrabold text-sm sm:text-base leading-tight tracking-tight text-slate-900 hover:text-indigo-600 transition-colors line-clamp-4 break-words cursor-text p-1 rounded-lg hover:bg-slate-50"
+                    title="Double-click to rename"
+                    data-id="${project.id}"
+                  >
+                    ${escapeHtml(project.name)}
+                  </h4>
+                </div>
+
+                <div class="w-full flex justify-center">
+                  <span class="text-[8px] font-bold uppercase tracking-widest text-slate-400 bg-slate-100 px-2 py-0.5 rounded-md">
+                    TaskPulse
+                  </span>
+                </div>
+              </div>
+            `}
+
+            <!-- Top right completion badge -->
+            ${percent === 100 ? `
+              <div class="absolute top-2 right-2 z-10">
+                <span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-500 text-white shadow-sm flex items-center gap-1">
+                  ✓ DONE
+                </span>
+              </div>
+            ` : ''}
+          </div>
+
+          <!-- Bottom Meta & Progressive Line Indicator -->
+          <div class="mt-2.5 px-0.5 flex flex-col gap-1.5">
+            <div class="flex items-center justify-between gap-1">
+              <div 
+                class="editable-project-title flex-1 min-w-0 font-bold text-xs sm:text-sm tracking-tight text-slate-800 dark:text-slate-100 truncate hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors cursor-text p-0.5 rounded"
+                title="Double-click to rename"
+                data-id="${project.id}"
+              >
+                <span>${project.emoji}</span>
+                <span class="title-text-node ml-0.5">${escapeHtml(project.name)}</span>
+              </div>
+              <span class="text-[11px] font-semibold text-slate-400 dark:text-slate-500 flex-shrink-0">
+                ${done}/${total}
+              </span>
+            </div>
+
+            <!-- Small progressive line indicator with dynamic progress color -->
+            <div class="flex items-center gap-2 cursor-pointer card-line-trigger">
+              <div class="flex-1 h-1.5 sm:h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+                <div
+                  class="h-full rounded-full transition-all duration-500"
+                  style="width: ${percent}%; background-color: ${strokeColor};"
+                ></div>
+              </div>
+              <span class="metric-brico text-xs font-bold text-slate-700 dark:text-slate-300 min-w-[28px] text-right">
+                ${percent}%
+              </span>
+            </div>
+          </div>
+        `;
+
+        const capsuleBox = card.querySelector('.card-capsule-box');
+        const lineTrigger = card.querySelector('.card-line-trigger');
+
+        capsuleBox.addEventListener('click', (e) => {
+          if (e.target.closest('.editable-project-title')) return;
+          selectProjectAndOpenDetail(project.id);
+        });
+
+        lineTrigger.addEventListener('click', () => {
+          selectProjectAndOpenDetail(project.id);
+        });
+
+        card.querySelectorAll('.editable-project-title').forEach(titleElem => {
+          titleElem.addEventListener('click', (e) => {
+            e.stopPropagation();
+          });
+          titleElem.addEventListener('mousedown', (e) => {
+            e.stopPropagation();
+          });
+          titleElem.addEventListener('dblclick', (e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            triggerInlineEdit(titleElem, project.id);
+          });
+        });
+
+        homeGrid.appendChild(card);
+      });
+
+      // Quick "+ Add Project" Card in Home Grid
+      const addCard = document.createElement('div');
+      addCard.className = "flex flex-col select-none cursor-pointer group";
+      addCard.innerHTML = `
+        <div class="w-full aspect-[2/3] rounded-2xl border-2 border-dashed border-slate-300 dark:border-slate-800 hover:border-indigo-500 dark:hover:border-indigo-400 bg-white/50 dark:bg-slate-900/40 hover:bg-indigo-50/40 dark:hover:bg-indigo-950/20 transition-all flex flex-col items-center justify-center p-4 text-center shadow-sm">
+          <div class="w-10 h-10 rounded-2xl bg-indigo-50 dark:bg-indigo-950/70 border border-indigo-200/80 dark:border-indigo-800/80 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mb-2.5 shadow-sm group-hover:scale-110 transition-transform">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+            </svg>
+          </div>
+          <span class="text-xs sm:text-sm font-bold text-slate-700 dark:text-slate-200">New Project</span>
+          <span class="text-[10px] text-slate-400 mt-0.5">Add 2:3 checklist capsule</span>
+        </div>
+        <div class="mt-2.5 px-0.5 opacity-0 pointer-events-none text-xs">Spacer</div>
+      `;
+      addCard.addEventListener('click', () => {
+        openSidebar();
+        showNewProjectForm();
+      });
+      homeGrid.appendChild(addCard);
+    }
+
+    homeCreateProjBtn.addEventListener('click', () => {
+      openSidebar();
+      showNewProjectForm();
+    });
+
+    function openSidebar() {
+      sidebar.classList.remove('-translate-x-full');
+      sidebarBackdrop.classList.remove('hidden');
+      requestAnimationFrame(() => {
+        sidebarBackdrop.classList.remove('opacity-0');
+        sidebarBackdrop.classList.add('opacity-100');
+      });
+    }
+
+    function closeSidebar() {
+      sidebar.classList.add('-translate-x-full');
+      sidebarBackdrop.classList.add('opacity-0');
+      sidebarBackdrop.classList.remove('opacity-100');
+      setTimeout(() => {
+        sidebarBackdrop.classList.add('hidden');
+      }, 300);
+      hideNewProjectForm();
+    }
+
+    openSidebarBtn.addEventListener('click', openSidebar);
+    closeSidebarBtn.addEventListener('click', closeSidebar);
+    sidebarBackdrop.addEventListener('click', closeSidebar);
+    headerProjectTrigger.addEventListener('click', openSidebar);
+
+    function showNewProjectForm() {
+      newProjectForm.classList.remove('hidden');
+      openNewProjectBtn.classList.add('hidden');
+      newProjectInput.value = '';
+      selectedNewEmoji = '🎯';
+      selectedEmojiBtn.textContent = '🎯';
+      newProjectInput.focus();
+    }
+
+    function hideNewProjectForm() {
+      newProjectForm.classList.add('hidden');
+      openNewProjectBtn.classList.remove('hidden');
+      emojiPicker.classList.add('hidden');
+    }
+
+    openNewProjectBtn.addEventListener('click', showNewProjectForm);
+    cancelProjectBtn.addEventListener('click', hideNewProjectForm);
+
+    selectedEmojiBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      emojiPicker.classList.toggle('hidden');
+    });
+
+    document.querySelectorAll('.emoji-opt').forEach(opt => {
+      opt.addEventListener('click', (e) => {
+        e.stopPropagation();
+        selectedNewEmoji = opt.textContent;
+        selectedEmojiBtn.textContent = selectedNewEmoji;
+        emojiPicker.classList.add('hidden');
+      });
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!selectedEmojiBtn.contains(e.target) && !emojiPicker.contains(e.target)) {
+        emojiPicker.classList.add('hidden');
+      }
+    });
+
+    function createNewProject() {
+      const name = newProjectInput.value.trim();
+      if (!name) {
+        showToast('Please enter a project name');
+        return;
+      }
+      const newProj = {
+        id: 'proj_' + Date.now(),
+        name: name,
+        emoji: selectedNewEmoji || '🎯',
+        coverArt: '',
+        description: '',
+        tasks: []
+      };
+      projects.push(newProj);
+      activeProjectId = newProj.id;
+      hideNewProjectForm();
+      saveData();
+      renderProjectsSidebar();
+      closeSidebar();
+      setView('detail');
+      showToast(`Created "${name}"`);
+    }
+
+    confirmProjectBtn.addEventListener('click', createNewProject);
+    newProjectInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') createNewProject();
+      if (e.key === 'Escape') hideNewProjectForm();
+    });
+
+    function openCoverModal() {
+      const proj = getActiveProject();
+      coverUrlInput.value = (proj && proj.coverArt && proj.coverArt.startsWith('http')) ? proj.coverArt : '';
+      coverModal.classList.remove('hidden');
+      requestAnimationFrame(() => {
+        coverModal.classList.remove('opacity-0');
+        coverModal.classList.add('opacity-100');
+        coverModalBox.classList.remove('scale-95');
+        coverModalBox.classList.add('scale-100');
+      });
+    }
+
+    function closeCoverModal() {
+      coverModal.classList.remove('opacity-100');
+      coverModal.classList.add('opacity-0');
+      coverModalBox.classList.remove('scale-100');
+      coverModalBox.classList.add('scale-95');
+      setTimeout(() => {
+        coverModal.classList.add('hidden');
+        coverFileInput.value = '';
+      }, 200);
+    }
+
+    addCoverBtn.addEventListener('click', openCoverModal);
+    closeCoverModalBtn.addEventListener('click', closeCoverModal);
+    cancelCoverModalBtn.addEventListener('click', closeCoverModal);
+    coverModal.addEventListener('click', (e) => {
+      if (e.target === coverModal) closeCoverModal();
+    });
+
+    coverFileInput.addEventListener('change', (e) => {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+
+      if (file.size > 3.5 * 1024 * 1024) {
+        showToast('Image file too large (max 3.5MB)');
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = (loadEvent) => {
+        const dataUrl = loadEvent.target.result;
+        setProjectCoverArt(dataUrl);
+        closeCoverModal();
+        showToast('Cover art updated');
+      };
+      reader.readAsDataURL(file);
+    });
+
+    saveCoverUrlBtn.addEventListener('click', () => {
+      const url = coverUrlInput.value.trim();
+      if (url) {
+        setProjectCoverArt(url);
+        closeCoverModal();
+        showToast('Cover art updated');
+      } else {
+        showToast('Please enter an image URL or choose a file');
+      }
+    });
+
+    document.querySelectorAll('.sample-cover-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const url = btn.getAttribute('data-url');
+        setProjectCoverArt(url);
+        closeCoverModal();
+        showToast('Sample artwork applied');
+      });
+    });
+
+    deleteCoverBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      setProjectCoverArt('');
+      showToast('Custom cover removed (Default restored)');
+    });
+
+    function setProjectCoverArt(urlOrData) {
+      const proj = getActiveProject();
+      if (!proj) return;
+      proj.coverArt = urlOrData;
+      saveData();
+      updateCoverDisplay();
+      renderProjectsSidebar();
+      if (activeView === 'home') renderHomeGrid();
+    }
+
+    function updateCoverDisplay() {
+      const proj = getActiveProject();
+      if (!proj) return;
+
+      defaultCoverTitle.textContent = proj.name;
+      defaultCoverEmoji.textContent = proj.emoji;
+
+      if (proj.coverArt) {
+        coverArtImg.src = proj.coverArt;
+        coverArtImg.classList.remove('hidden');
+        coverArtDefault.classList.add('hidden');
+        coverArtRatioBadge.classList.remove('hidden');
+        deleteCoverBtn.classList.remove('hidden');
+      } else {
+        coverArtImg.src = '';
+        coverArtImg.classList.add('hidden');
+        coverArtDefault.classList.remove('hidden');
+        coverArtRatioBadge.classList.add('hidden');
+        deleteCoverBtn.classList.add('hidden');
+      }
+    }
+
+    // --- RENAME PROJECT MODAL (DRAWER BUTTON) ---
+    function openRenameModal(projectId) {
+      const proj = projects.find(p => p.id === projectId);
+      if (!proj) return;
+
+      projectPendingRenameId = projectId;
+      renameModalInput.value = proj.name;
+
+      renameModal.classList.remove('hidden');
+      requestAnimationFrame(() => {
+        renameModal.classList.remove('opacity-0');
+        renameModal.classList.add('opacity-100');
+        renameModalBox.classList.remove('scale-95');
+        renameModalBox.classList.add('scale-100');
+        renameModalInput.focus();
+        renameModalInput.select();
+      });
+    }
+
+    function closeRenameModal() {
+      renameModal.classList.remove('opacity-100');
+      renameModal.classList.add('opacity-0');
+      renameModalBox.classList.remove('scale-100');
+      renameModalBox.classList.add('scale-95');
+      setTimeout(() => {
+        renameModal.classList.add('hidden');
+        projectPendingRenameId = null;
+      }, 200);
+    }
+
+    cancelRenameBtn.addEventListener('click', closeRenameModal);
+    renameModal.addEventListener('click', (e) => {
+      if (e.target === renameModal) closeRenameModal();
+    });
+
+    function executeRenameProject() {
+      if (!projectPendingRenameId) return;
+      const newName = renameModalInput.value.trim();
+      if (!newName) {
+        showToast('Please enter a valid title');
+        return;
+      }
+
+      const proj = projects.find(p => p.id === projectPendingRenameId);
+      if (proj) {
+        proj.name = newName;
+        saveData();
+        renderProjectsSidebar();
+        if (activeProjectId === proj.id) {
+          updateCoverDisplay();
+          headerProjectName.textContent = newName;
+        }
+        if (activeView === 'home') renderHomeGrid();
+        showToast(`Renamed to "${newName}"`);
+      }
+      closeRenameModal();
+    }
+
+    confirmRenameBtn.addEventListener('click', executeRenameProject);
+    renameModalInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') executeRenameProject();
+      if (e.key === 'Escape') closeRenameModal();
+    });
+
+    // --- DELETE PROJECT MODAL HANDLING ---
+    function openDeleteModal(projectId) {
+      const proj = projects.find(p => p.id === projectId);
+      if (!proj) return;
+      
+      if (projects.length <= 1) {
+        showToast('Cannot delete the only project');
+        return;
+      }
+
+      projectPendingDeleteId = projectId;
+      deleteModalMsg.innerHTML = `Are you sure you want to delete <strong class="text-slate-800 dark:text-slate-100">"${escapeHtml(proj.name)}"</strong> and its checklist? This cannot be undone.`;
+      
+      deleteModal.classList.remove('hidden');
+      requestAnimationFrame(() => {
+        deleteModal.classList.remove('opacity-0');
+        deleteModal.classList.add('opacity-100');
+        deleteModalBox.classList.remove('scale-95');
+        deleteModalBox.classList.add('scale-100');
+      });
+    }
+
+    function closeDeleteModal() {
+      deleteModal.classList.remove('opacity-100');
+      deleteModal.classList.add('opacity-0');
+      deleteModalBox.classList.remove('scale-100');
+      deleteModalBox.classList.add('scale-95');
+      setTimeout(() => {
+        deleteModal.classList.add('hidden');
+        projectPendingDeleteId = null;
+      }, 200);
+    }
+
+    cancelDeleteBtn.addEventListener('click', closeDeleteModal);
+    deleteModal.addEventListener('click', (e) => {
+      if (e.target === deleteModal) closeDeleteModal();
+    });
+
+    function executeDeleteProject() {
+      if (!projectPendingDeleteId) return;
+
+      const targetId = projectPendingDeleteId;
+      const targetProj = projects.find(p => p.id === targetId);
+      const targetName = targetProj ? targetProj.name : 'Project';
+
+      projects = projects.filter(p => p.id !== targetId);
+
+      if (activeProjectId === targetId) {
+        if (projects.length > 0) {
+          activeProjectId = projects[0].id;
+        } else {
+          const fallback = {
+            id: 'proj_' + Date.now(),
+            name: 'General Tasks',
+            emoji: '🎯',
+            coverArt: '',
+            description: '',
+            tasks: []
+          };
+          projects.push(fallback);
+          activeProjectId = fallback.id;
+        }
+        previousPercent = -1;
+      }
+
+      saveData();
+      renderProjectsSidebar();
+      if (activeView === 'home') {
+        renderHomeGrid();
+      } else {
+        renderActiveProject();
+      }
+      closeDeleteModal();
+      showToast(`Deleted "${targetName}"`);
+    }
+
+    confirmDeleteBtn.addEventListener('click', executeDeleteProject);
+
+    function renderProjectsSidebar() {
+      projectsListContainer.innerHTML = '';
+      projectCounterBadge.textContent = `${projects.length} Project${projects.length === 1 ? '' : 's'}`;
+
+      projects.forEach(project => {
+        const { total, done, percent } = calculateProgress(project);
+        const isActive = project.id === activeProjectId && activeView === 'detail';
+
+        const item = document.createElement('div');
+        item.className = `group relative flex items-center justify-between p-2.5 rounded-2xl cursor-pointer transition-all border ${
+          isActive
+            ? 'bg-indigo-50/80 dark:bg-indigo-950/40 border-indigo-200 dark:border-indigo-800/60 shadow-sm'
+            : 'bg-transparent border-transparent hover:bg-slate-100/70 dark:hover:bg-slate-800/60 text-slate-600 dark:text-slate-300'
+        }`;
+
+        item.innerHTML = `
+          <div class="flex items-center gap-3 flex-1 min-w-0 select-project-trigger mr-2" data-id="${project.id}">
+            <div class="w-8 h-10 rounded-lg overflow-hidden flex-shrink-0 bg-white dark:bg-slate-800 flex items-center justify-center border border-slate-300/60 dark:border-slate-700/60 shadow-xs">
+              ${project.coverArt ? `
+                <img src="${project.coverArt}" class="w-full h-full object-cover" alt="" />
+              ` : `
+                <span class="text-xs font-bold text-slate-800 dark:text-slate-200">${project.emoji}</span>
+              `}
+            </div>
+            
+            <div class="min-w-0 flex-1">
+              <div class="flex items-center gap-2">
+                <span class="text-sm font-bold truncate ${isActive ? 'text-indigo-600 dark:text-indigo-400' : 'text-slate-800 dark:text-slate-200'}">
+                  ${escapeHtml(project.name)}
+                </span>
+              </div>
+              <div class="flex items-center gap-2 text-[11px] text-slate-400 font-medium">
+                <span>${done}/${total} done</span>
+                <span>•</span>
+                <span class="${percent === 100 ? 'text-emerald-500 font-bold' : ''}">${percent}%</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-0.5 z-10">
+            <button
+              type="button"
+              class="rename-project-btn p-1.5 rounded-xl text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-950/50 transition-colors"
+              title="Rename project"
+              data-id="${project.id}"
+              aria-label="Rename ${escapeHtml(project.name)}"
+            >
+              <svg class="w-4 h-4 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+              </svg>
+            </button>
+
+            ${projects.length > 1 ? `
+              <button
+                type="button"
+                class="delete-project-btn p-1.5 rounded-xl text-slate-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/50 transition-colors"
+                title="Delete project"
+                data-id="${project.id}"
+                aria-label="Delete ${escapeHtml(project.name)}"
+              >
+                <svg class="w-4 h-4 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+              </button>
+            ` : `
+              <span class="w-7"></span>
+            `}
+          </div>
+        `;
+
+        projectsListContainer.appendChild(item);
+      });
+    }
+
+    projectsListContainer.addEventListener('click', (e) => {
+      const renameBtn = e.target.closest('.rename-project-btn');
+      if (renameBtn) {
+        e.preventDefault();
+        e.stopPropagation();
+        const id = renameBtn.getAttribute('data-id');
+        openRenameModal(id);
+        return;
+      }
+
+      const delBtn = e.target.closest('.delete-project-btn');
+      if (delBtn) {
+        e.preventDefault();
+        e.stopPropagation();
+        const id = delBtn.getAttribute('data-id');
+        openDeleteModal(id);
+        return;
+      }
+
+      const selectTrigger = e.target.closest('.select-project-trigger');
+      if (selectTrigger) {
+        const id = selectTrigger.getAttribute('data-id');
+        if (id) {
+          selectProjectAndOpenDetail(id);
+          closeSidebar();
+        }
+        return;
+      }
+    });
+
+    sidebarResetBtn.addEventListener('click', () => {
+      projects = JSON.parse(JSON.stringify(SEED_PROJECTS));
+      activeProjectId = projects[0].id;
+      saveData();
+      renderProjectsSidebar();
+      if (activeView === 'home') {
+        renderHomeGrid();
+      } else {
+        renderActiveProject();
+      }
+      closeSidebar();
+      showToast('Default projects restored');
+    });
+
+    function getActiveProject() {
+      return projects.find(p => p.id === activeProjectId) || projects[0];
+    }
+
+    function triggerCelebration() {
+      sound.playCelebration();
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 55,
+          angle: 60,
+          spread: 60,
+          origin: { x: 0.15, y: 0.6 }
+        });
+        confetti({
+          particleCount: 55,
+          angle: 120,
+          spread: 60,
+          origin: { x: 0.85, y: 0.6 }
+        });
+      }
+    }
+
+    function updateProgressRing() {
+      const project = getActiveProject();
+      const { total, done, progress, percent, hue } = calculateProgress(project);
+
+      const offset = CIRCUMFERENCE - (progress * CIRCUMFERENCE);
+      progressCircle.style.strokeDashoffset = offset;
+
+      const strokeColor = `hsl(${hue}, 86%, 45%)`;
+      const glowHex = `hsl(${hue}, 92%, 50%)`;
+
+      progressCircle.style.stroke = strokeColor;
+      glowColor.setAttribute('flood-color', glowHex);
+      ambientGlow.style.backgroundColor = strokeColor;
+      document.documentElement.style.setProperty('--glow-color', glowHex);
+
+      pctNumber.textContent = percent;
+      tasksRatio.textContent = `${done} of ${total} done`;
+      detailProjectTaskPill.textContent = `${done}/${total} tasks`;
+
+      if (total === 0) {
+        pctBadge.textContent = 'Empty Project';
+        pctBadge.className = 'text-[10px] sm:text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full mb-1 bg-slate-200/90 dark:bg-slate-800 text-slate-600 dark:text-slate-300 transition-colors';
+        motivationText.innerHTML = `<span>Add tasks below to start tracking</span>`;
+      } else if (percent === 100) {
+        pctBadge.textContent = 'Completed!';
+        pctBadge.className = 'text-[10px] sm:text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full mb-1 bg-emerald-100/90 dark:bg-emerald-950/70 text-emerald-600 dark:text-emerald-400 transition-colors shadow-sm';
+        motivationText.innerHTML = `<span class="text-emerald-600 dark:text-emerald-400 font-bold flex items-center gap-1"><svg class="w-3.5 h-3.5 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg> All project tasks finished!</span>`;
+
+        if (previousPercent < 100 && previousPercent !== -1) {
+          triggerCelebration();
+        }
+      } else if (percent >= 66) {
+        pctBadge.textContent = 'Almost There';
+        pctBadge.className = 'text-[10px] sm:text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full mb-1 bg-lime-100/90 dark:bg-lime-950/70 text-lime-700 dark:text-lime-300 transition-colors';
+        motivationText.innerHTML = `<span>Final stretch! Push towards 100%.</span>`;
+      } else if (percent >= 33) {
+        pctBadge.textContent = 'Gaining Pace';
+        pctBadge.className = 'text-[10px] sm:text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full mb-1 bg-amber-100/90 dark:bg-amber-950/70 text-amber-700 dark:text-amber-300 transition-colors';
+        motivationText.innerHTML = `<span>Good momentum, keep going.</span>`;
+      } else {
+        pctBadge.textContent = 'Getting Started';
+        pctBadge.className = 'text-[10px] sm:text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full mb-1 bg-red-100/90 dark:bg-red-950/70 text-red-600 dark:text-red-400 transition-colors';
+        motivationText.innerHTML = `<span>Tap checklist items to advance</span>`;
+      }
+
+      previousPercent = percent;
+    }
+
+    function renderActiveProject() {
+      const project = getActiveProject();
+
+      headerProjectName.textContent = project.name;
+      headerProjectEmoji.textContent = project.emoji;
+      activeProjectTag.textContent = `${project.emoji} ${project.name}`;
+      projectDescInput.value = project.description || '';
+
+      updateCoverDisplay();
+
+      taskList.innerHTML = '';
+      const filteredTasks = project.tasks.filter(task => {
+        if (currentFilter === 'pending') return !task.done;
+        if (currentFilter === 'completed') return task.done;
+        return true;
+      });
+
+      if (filteredTasks.length === 0) {
+        emptyState.classList.remove('hidden');
+        emptyState.classList.add('flex');
+      } else {
+        emptyState.classList.add('hidden');
+        emptyState.classList.remove('flex');
+
+        filteredTasks.forEach(task => {
+          const li = document.createElement('li');
+          li.className = `group flex items-center justify-between p-3 sm:p-3.5 rounded-2xl border transition-all duration-200 select-none ${
+            task.done
+              ? 'bg-emerald-50/40 dark:bg-emerald-950/15 border-emerald-200/60 dark:border-emerald-800/40 text-slate-400 dark:text-slate-500'
+              : 'bg-white dark:bg-slate-900 border-slate-200/70 dark:border-slate-800 hover:border-indigo-200 dark:hover:border-slate-700 shadow-sm'
+          }`;
+
+          li.innerHTML = `
+            <div class="flex items-center gap-3 flex-1 min-w-0 cursor-pointer task-toggle" data-id="${task.id}">
+              <div class="w-6 h-6 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-200 border-2 ${
+                task.done
+                  ? 'bg-emerald-500 border-emerald-500 text-white shadow-sm shadow-emerald-500/30'
+                  : 'border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 group-hover:border-indigo-400'
+              }">
+                <svg class="w-3.5 h-3.5 transition-transform duration-200 ${task.done ? 'opacity-100 scale-100' : 'opacity-0 scale-50'}" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+
+              <span class="text-sm font-semibold leading-tight truncate transition-all duration-200 ${
+                task.done
+                  ? 'line-through text-slate-400 dark:text-slate-500 font-normal'
+                  : 'text-slate-700 dark:text-slate-200'
+              }">
+                ${escapeHtml(task.title)}
+              </span>
+            </div>
+
+            <button
+              class="delete-task-btn opacity-60 sm:opacity-0 group-hover:opacity-100 p-1.5 rounded-lg text-slate-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/50 transition-all flex-shrink-0 ml-2"
+              title="Delete item"
+              data-id="${task.id}"
+            >
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+              </svg>
+            </button>
+          `;
+
+          taskList.appendChild(li);
+        });
+      }
+
+      updateProgressRing();
+      renderProjectsSidebar();
+    }
+
+    function escapeHtml(str) {
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    function toggleTask(id) {
+      const project = getActiveProject();
+      project.tasks = project.tasks.map(t => {
+        if (t.id === id) {
+          const next = !t.done;
+          sound.playCheck(next);
+          return { ...t, done: next };
+        }
+        return t;
+      });
+      saveData();
+      renderActiveProject();
+    }
+
+    function deleteTask(id) {
+      const project = getActiveProject();
+      project.tasks = project.tasks.filter(t => t.id !== id);
+      saveData();
+      renderActiveProject();
+      showToast('Item removed');
+    }
+
+    taskList.addEventListener('click', (e) => {
+      const toggle = e.target.closest('.task-toggle');
+      if (toggle) {
+        const id = toggle.getAttribute('data-id');
+        toggleTask(id);
+        return;
+      }
+
+      const delBtn = e.target.closest('.delete-task-btn');
+      if (delBtn) {
+        const id = delBtn.getAttribute('data-id');
+        deleteTask(id);
+      }
+    });
+
+    addTaskForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const text = taskInput.value.trim();
+      if (!text) return;
+
+      const project = getActiveProject();
+      const newTask = {
+        id: 't_' + Date.now(),
+        title: text,
+        done: false
+      };
+
+      project.tasks.unshift(newTask);
+      taskInput.value = '';
+      saveData();
+      renderActiveProject();
+      showToast('Item added');
+    });
+
+    projectDescInput.addEventListener('input', (e) => {
+      const project = getActiveProject();
+      project.description = e.target.value;
+      saveData();
+    });
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => {
+          b.className = 'filter-btn px-3 py-1.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition font-bold';
+        });
+        btn.className = 'filter-btn px-3 py-1.5 rounded-lg bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 shadow-sm transition font-bold';
+        currentFilter = btn.getAttribute('data-filter');
+        renderActiveProject();
+      });
+    });
+
+    checkAllBtn.addEventListener('click', () => {
+      const project = getActiveProject();
+      if (project.tasks.length === 0) return;
+      const allDone = project.tasks.every(t => t.done);
+      project.tasks = project.tasks.map(t => ({ ...t, done: !allDone }));
+      sound.playCheck(!allDone);
+      saveData();
+      renderActiveProject();
+      showToast(allDone ? 'Marked all pending' : 'Marked all complete');
+    });
+
+    clearBtn.addEventListener('click', () => {
+      const project = getActiveProject();
+      const beforeCount = project.tasks.length;
+      project.tasks = project.tasks.filter(t => !t.done);
+      if (project.tasks.length === beforeCount) {
+        showToast('No completed tasks to clear');
+        return;
+      }
+      saveData();
+      renderActiveProject();
+      showToast('Completed items cleared');
+    });
+
+    soundBtn.addEventListener('click', () => {
+      sound.enabled = !sound.enabled;
+      if (sound.enabled) {
+        soundIconOn.classList.remove('hidden');
+        soundIconOff.classList.add('hidden');
+        sound.init();
+        showToast('Sound enabled');
+      } else {
+        soundIconOn.classList.add('hidden');
+        soundIconOff.classList.remove('hidden');
+        showToast('Sound muted');
+      }
+    });
+
+    themeBtn.addEventListener('click', () => {
+      document.documentElement.classList.toggle('dark');
+      const isDark = document.documentElement.classList.contains('dark');
+      localStorage.setItem('taskpulse_theme', isDark ? 'dark' : 'light');
+    });
+
+    function saveData() {
+      try {
+        localStorage.setItem('taskpulse_projects_v4', JSON.stringify(projects));
+        localStorage.setItem('taskpulse_active_id_v4', activeProjectId);
+        localStorage.setItem('taskpulse_active_view_v4', activeView);
+      } catch (e) {}
+    }
+
+    function initApp() {
+      const savedTheme = localStorage.getItem('taskpulse_theme');
+      if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+
+      try {
+        const storedProjs = localStorage.getItem('taskpulse_projects_v4');
+        const storedActive = localStorage.getItem('taskpulse_active_id_v4');
+        const storedView = localStorage.getItem('taskpulse_active_view_v4');
+
+        if (storedProjs) {
+          projects = JSON.parse(storedProjs);
+        } else {
+          projects = JSON.parse(JSON.stringify(SEED_PROJECTS));
+        }
+
+        if (storedActive && projects.some(p => p.id === storedActive)) {
+          activeProjectId = storedActive;
+        } else if (projects.length > 0) {
+          activeProjectId = projects[0].id;
+        }
+
+        if (storedView === 'detail' || storedView === 'home') {
+          activeView = storedView;
+        }
+      } catch (e) {
+        projects = JSON.parse(JSON.stringify(SEED_PROJECTS));
+        activeProjectId = projects[0].id;
+        activeView = 'home';
+      }
+
+      renderProjectsSidebar();
+      setView(activeView);
+    }
+
+    window.addEventListener('DOMContentLoaded', initApp);
+  </script>
+</body>
+</html>
