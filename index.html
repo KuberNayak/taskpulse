@@ -291,12 +291,15 @@
     <!-- Main Detail Glass Panel -->
     <div class="w-full glass-panel border border-slate-200/80 dark:border-slate-800/80 rounded-[2rem] shadow-glass shadow-slate-300/20 dark:shadow-black/40 overflow-hidden flex flex-col">
       <section class="p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-around gap-6 sm:gap-8 border-b border-slate-100 dark:border-slate-800/60 relative bg-gradient-to-b from-white/50 to-slate-50/20 dark:from-slate-900/50 dark:to-slate-900/10">
-        <div class="flex items-end gap-2.5 flex-shrink-0">
+        
+        <!-- Centered Cover Wrapper -->
+        <div class="relative flex items-center justify-center flex-shrink-0">
           <div
             id="detail-cover-box"
             class="relative w-[148px] sm:w-[162px] aspect-[2/3] rounded-2xl overflow-hidden border-2 border-slate-200/90 dark:border-slate-700/80 bg-white dark:bg-white shadow-lg shadow-slate-300/30 dark:shadow-black/60 transition-all duration-300 hover:shadow-xl flex flex-col items-center justify-center flex-shrink-0"
           >
             <img id="cover-art-img" src="" alt="Project Cover" class="w-full h-full object-cover hidden transition-all duration-300" />
+            
             <div id="cover-art-default" class="w-full h-full p-4 flex flex-col items-center justify-between text-center bg-white text-slate-900 select-none transition-all">
               <div class="w-full flex items-center justify-between opacity-50">
                 <span class="text-[9px] font-extrabold uppercase tracking-wider text-slate-500">Capsule</span>
@@ -313,6 +316,7 @@
                 </span>
               </div>
             </div>
+
             <div id="cover-art-ratio-badge" class="absolute bottom-2 left-2 z-10 pointer-events-none hidden">
               <span class="text-[9px] font-extrabold uppercase tracking-wider px-1.5 py-0.5 rounded-md bg-black/60 backdrop-blur-sm text-white/90">
                 2:3
@@ -320,7 +324,8 @@
             </div>
           </div>
 
-          <div class="flex flex-col items-center gap-1.5 pb-1">
+          <!-- Floating Action Buttons (Removed from flex flow) -->
+          <div class="absolute -right-10 sm:-right-11 bottom-2 flex flex-col items-center gap-2 z-20">
             <button
               id="add-cover-btn"
               type="button"
@@ -344,8 +349,8 @@
           </div>
         </div>
 
-        <!-- Right: Progress Donut -->
-        <div class="flex flex-col items-center justify-center flex-shrink-0">
+        <!-- Right / Bottom: Progress Donut -->
+        <div class="flex flex-col items-center justify-center flex-shrink-0 w-full sm:w-auto">
           <div class="relative w-52 h-52 sm:w-56 sm:h-56 flex items-center justify-center">
             <svg class="w-full h-full" viewBox="0 0 160 160">
               <defs>
