@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <!-- Prevents mobile viewport zooming on input focus -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>TaskPulse - Project Dashboard & Showcase</title>
   <!-- PWA & Mobile Meta Tags -->
@@ -360,10 +361,10 @@
           </div>
         </div>
 
-        <!-- Progress Donut (Placed slightly right; motivation text tightly attached and centered in absolute middle) -->
-        <div class="flex flex-col items-center justify-center flex-shrink-0 translate-x-2 sm:translate-x-3 w-36 sm:w-44">
+        <!-- Progress Donut & Motivation Text (Locked to single vertical axis, whitespace canceled) -->
+        <div class="flex flex-col items-center justify-center flex-shrink-0 translate-x-2 sm:translate-x-3 w-36 sm:w-44 text-center">
           <div class="relative w-36 h-36 sm:w-44 sm:h-44 flex items-center justify-center mx-auto">
-            <svg class="w-full h-full" viewBox="0 0 160 160">
+            <svg class="w-full h-full block" viewBox="0 0 160 160">
               <defs>
                 <filter id="progress-glow" x="-20%" y="-20%" width="140%" height="140%">
                   <feDropShadow dx="0" dy="0" stdDeviation="4" flood-opacity="0.38" id="glow-color" flood-color="#ef4444" />
@@ -395,9 +396,9 @@
             </div>
           </div>
 
-          <!-- Motivation Text: Halved distance (mt-0.5), centered horizontally directly under the donut ring -->
-          <div id="motivation-text" class="mt-0.5 w-full text-[11px] sm:text-xs font-medium text-slate-500 dark:text-slate-400 text-center leading-snug min-h-[28px] flex flex-col items-center justify-center px-1 transition-all">
-            <span>Tap items to advance</span>
+          <!-- Minimal Padding: Negative top margin pulls text right against visible arc in dead center -->
+          <div id="motivation-text" class="-mt-2 sm:-mt-2.5 w-full text-[11px] sm:text-xs font-medium text-slate-500 dark:text-slate-400 text-center leading-snug flex items-center justify-center px-1 transition-all">
+            <span class="text-center w-full">Tap items to advance</span>
           </div>
         </div>
       </section>
@@ -1522,24 +1523,24 @@
       if (total === 0) {
         pctBadge.textContent = 'Empty Project';
         pctBadge.className = 'text-[9px] sm:text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full mb-0.5 bg-slate-200/90 dark:bg-slate-800 text-slate-600 dark:text-slate-300 transition-colors';
-        motivationText.innerHTML = `<span>Add tasks below to start</span>`;
+        motivationText.innerHTML = `<span class="text-center w-full">Add tasks below to start</span>`;
       } else if (percent === 100) {
         pctBadge.textContent = 'Completed!';
         pctBadge.className = 'text-[9px] sm:text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full mb-0.5 bg-emerald-100/90 dark:bg-emerald-950/70 text-emerald-600 dark:text-emerald-400 transition-colors shadow-sm';
-        motivationText.innerHTML = `<span class="text-emerald-600 dark:text-emerald-400 font-bold flex items-center justify-center gap-1 text-center"><svg class="w-3 h-3 inline flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg> All tasks finished!</span>`;
+        motivationText.innerHTML = `<span class="text-emerald-600 dark:text-emerald-400 font-bold flex items-center justify-center gap-1 text-center w-full"><svg class="w-3 h-3 inline flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg> All tasks finished!</span>`;
         if (previousPercent < 100 && previousPercent !== -1) triggerCelebration();
       } else if (percent >= 66) {
         pctBadge.textContent = 'Almost There';
         pctBadge.className = 'text-[9px] sm:text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full mb-0.5 bg-lime-100/90 dark:bg-lime-950/70 text-lime-700 dark:text-lime-300 transition-colors';
-        motivationText.innerHTML = `<span>Final stretch! Push to 100%.</span>`;
+        motivationText.innerHTML = `<span class="text-center w-full">Final stretch! Push to 100%.</span>`;
       } else if (percent >= 33) {
         pctBadge.textContent = 'Gaining Pace';
         pctBadge.className = 'text-[9px] sm:text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full mb-0.5 bg-amber-100/90 dark:bg-amber-950/70 text-amber-700 dark:text-amber-300 transition-colors';
-        motivationText.innerHTML = `<span>Good momentum, keep going.</span>`;
+        motivationText.innerHTML = `<span class="text-center w-full">Good momentum, keep going.</span>`;
       } else {
         pctBadge.textContent = 'Getting Started';
         pctBadge.className = 'text-[9px] sm:text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full mb-0.5 bg-red-100/90 dark:bg-red-950/70 text-red-600 dark:text-red-400 transition-colors';
-        motivationText.innerHTML = `<span>Tap items to advance</span>`;
+        motivationText.innerHTML = `<span class="text-center w-full">Tap items to advance</span>`;
       }
       previousPercent = percent;
     }
